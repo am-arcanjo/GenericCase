@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FiTrash2, FiEdit } from "react-icons/fi";
-import api from "../../services/Api";
 
 import "./style.css";
 
@@ -38,11 +37,16 @@ function Lobby() {
   const [areas, setAreas] = useState([]);
 
   useEffect(() => {
-    api
-      .get("api/getarea")
+    fetch("api/getarea")
       .then((response) => {
-        console.log(response.data);
-        setAreas(response.data);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setAreas(data);
       })
       .catch((error) => {
         console.error("Error fetching data: ", error);

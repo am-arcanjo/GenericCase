@@ -1,14 +1,9 @@
-import "./App.css";
-import { Link } from "react-router-dom";
+import Routes from "./routes";
+import { React } from "react";
+import "./global.css";
 
-function Home() {
-  return (
-    <div className="Home-header">
-      <Link to="/lobby">
-        <p className="Button"> get started </p>
-      </Link>
-    </div>
-  );
+function App() {
+  return <Routes />;
 }
 
-export default Home;
+export default App;

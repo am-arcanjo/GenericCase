@@ -1,0 +1,127 @@
+@import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Libre+Baskerville&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Libre+Baskerville&family=Montserrat&display=swap");
+
+.lobby {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Header {
+  background: #033f63;
+  color: #e7e9d4;
+  font-family: "Alfa Slab One", serif;
+  font-size: 60px;
+  text-align: left;
+  width: auto;
+  padding-top: 40px;
+  margin-bottom: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Background-layer {
+  width: auto;
+  height: 100vh;
+  background: rgb(253, 187, 45);
+  background: linear-gradient(
+    0deg,
+    rgba(253, 187, 45, 1) 0%,
+    rgba(222, 172, 52, 1) 11%,
+    rgba(3, 63, 99, 1) 54%
+  );
+  color: #e7e9d4;
+  font-family: "Montserrat", serif;
+  font-size: 40px;
+  padding-left: 5vw;
+  padding-right: 5vw;
+  align-items: center;
+  justify-content: center;
+}
+
+.Register-button {
+  width: 160px;
+  height: 60px;
+  background: #065485;
+  border: 0;
+  border-radius: 8px;
+  color: #e7e9d4;
+  font-weight: 700px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 60px;
+  transition: 0.2s;
+  font-family: "Montserrat", serif;
+}
+
+.Card {
+  font-size: 30px;
+  color: #e7e9d4;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 2fr);
+  grid-gap: 8px;
+  list-style: none;
+  padding-top: 20px;
+}
+
+.Card li {
+  background: #ddbd8c;
+  width: 300px;
+  height: auto;
+  color: rgb(95, 68, 8);
+  padding: 14px;
+  border-radius: 8px;
+  position: relative;
+}
+
+.Card li h3 {
+  font-size: 20px;
+  padding-bottom: 30px;
+}
+
+.Card li p {
+  font-size: 20px;
+  line-height: 20px;
+}
+
+.Delete-button {
+  border: 0;
+  background-color: #ddbd8c;
+  color: rgb(83, 160, 231);
+}
+
+.Edit-button {
+  border: 0;
+  background-color: #ddbd8c;
+  color: rgb(83, 160, 231);
+}
+
+.Card li div {
+  display: flex;
+  justify-content: space-between;
+  align-self: start;
+}
+
+.Card li div div {
+  display: flex;
+  gap: 8px;
+}
+
+.Card li div div button:hover {
+  color: rgb(68, 129, 187);
+}
+
+.Pagination {
+  position: absolute;
+  left: 45vw;
+  size: 20vw;
+  top: 90vh;
+}
+
+.Pagination:hover {
+  border-radius: 5px;
+  color: rgb(143, 105, 24);
+}

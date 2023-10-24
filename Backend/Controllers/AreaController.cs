@@ -19,6 +19,16 @@ namespace CaseAPI.Controllers
             _context = context;
         }
 
+        [HttpOptions("api/area")] 
+        public IActionResult PreflightResponse()
+        {
+            Response.Headers.Add("Access-Control-Allow-Origin", "*"); 
+            Response.Headers.Add("Access-Control-Allow-Headers", "content-type"); 
+            Response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS"); 
+            return Ok();
+        }
+
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AreaModel>>> GetAreas()
         {

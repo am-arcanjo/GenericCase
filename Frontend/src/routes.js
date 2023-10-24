@@ -7,8 +7,8 @@ export default function NavigationRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" exact element={Home} />
-        <Route path="/lobby" element={Lobby} />
+        <Route path="/" exact element={<Home />} />
+        <Route path="/lobby" element={<Lobby />} />
       </Routes>
     </BrowserRouter>
   );

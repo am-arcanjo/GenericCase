@@ -6,7 +6,7 @@ function Home() {
   return (
     <div className="Home-header">
       <Link to="/lobby">
-        <p className="Button">Get Started</p>
+        <p className="Button">get started</p>
       </Link>
     </div>
   );

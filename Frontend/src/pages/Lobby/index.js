@@ -37,7 +37,13 @@ function Lobby() {
   const [areas, setAreas] = useState([]);
 
   useEffect(() => {
-    fetch("api/area")
+    fetch("https://localhost:7239/api/area", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");

@@ -25,6 +25,17 @@ namespace CaseAPI
             {
                 options.UseSqlite(Configuration.GetConnectionString("SQLiteConnection"));
             });
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -39,13 +50,12 @@ namespace CaseAPI
                 app.UseHsts();
             }
 
-
+            app.UseCors();
             app.UseRouting();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers(); 
-                endpoints.MapFallbackToController("Index", "Home");
+                endpoints.MapFallbackToController("Lobby", "Home", "Index");
             });
         }
     }

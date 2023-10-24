@@ -19,7 +19,7 @@ namespace CaseAPI.Controllers
             _context = context;
         }
 
-        [HttpOptions("api/area")] 
+        [HttpOptions()] 
         public IActionResult PreflightResponse()
         {
             Response.Headers.Add("Access-Control-Allow-Origin", "*"); 

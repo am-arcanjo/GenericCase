@@ -72,27 +72,28 @@ function Lobby() {
         </div>
         Áreas Cadastradas
         <ul className="Card">
-          {areas.map((area, index) => {
+          {areas.map((area) => {
             return (
-              <li>
-                <div key={index}>
-                  <h3>{area.name}</h3>
+              <li key={area.Id}>
+                {" "}
+                <div>
+                  <h3>{area.Nome}</h3>
                   <div>
                     <button
                       className="Delete-button"
-                      /*onClick={() => handleDeleteArea(area.id)}*/ type="button"
+                      /* onClick={() => handleDeleteArea(area.Id)} */ type="button"
                     >
                       <FiTrash2 size="25" />
                     </button>
                     <button
                       className="Edit-button"
-                      /*onClick={() => handleUpdateArea(area.id)}*/ type="button"
+                      /* onClick={() => handleUpdateArea(area.Id)} */ type="button"
                     >
                       <FiEdit size="25" />
                     </button>
                   </div>
                 </div>
-                <p>{area.description}</p>
+                <p>{area.Descricao}</p>
               </li>
             );
           })}

@@ -72,31 +72,28 @@ function Lobby() {
         </div>
         Áreas Cadastradas
         <ul className="Card">
-          {areas.map((area) => {
-            return (
-              <li key={area.Id}>
-                {" "}
+          {areas.map((area) => (
+            <li key={area.id}>
+              <div>
+                <h3>{area.nome}</h3>
                 <div>
-                  <h3>{area.Nome}</h3>
-                  <div>
-                    <button
-                      className="Delete-button"
-                      /* onClick={() => handleDeleteArea(area.Id)} */ type="button"
-                    >
-                      <FiTrash2 size="25" />
-                    </button>
-                    <button
-                      className="Edit-button"
-                      /* onClick={() => handleUpdateArea(area.Id)} */ type="button"
-                    >
-                      <FiEdit size="25" />
-                    </button>
-                  </div>
+                  <button
+                    className="Delete-button"
+                    /* onClick={() => handleDeleteArea(area.Id)} */ type="button"
+                  >
+                    <FiTrash2 size="25" />
+                  </button>
+                  <button
+                    className="Edit-button"
+                    /* onClick={() => handleUpdateArea(area.Id)} */ type="button"
+                  >
+                    <FiEdit size="25" />
+                  </button>
                 </div>
-                <p>{area.Descricao}</p>
-              </li>
-            );
-          })}
+              </div>
+              <p>{area.descricao}</p>
+            </li>
+          ))}
         </ul>
         <div className="Pagination">
           <a>1 2 3 4</a>

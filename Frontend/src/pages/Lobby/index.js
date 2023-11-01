@@ -1,40 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FiTrash2, FiEdit } from "react-icons/fi";
+import ConfirmationModal from "../../components/others/ConfirmationModal";
 
 import "./style.css";
 
 function Lobby() {
-  // async function handleDeleteArea(id) {
-  //   try {
-  //       await api.delete(`area/${id}`, {
-  //       });
-
-  //       setArea(area.filter(area => area.id !== id));
-
-  //   } catch (err) {
-  //       alert('Erro ao deletar Área, tente novamente.');
-  //   }
-  // }
-
-  // const [areas, setAreas] = useState([]);
-
-  // const navigate = useNavigate();
-
-  // const areaId = localStorage.getItem('areaId');
-  // const areaName = localStorage.getItem('areaName');
-
-  // useEffect(() => {
-  //     api.get('profile', {
-  //         headers: {
-  //             Authorization: areaId,
-  //         }
-  //     }).then(response => {
-  //         setAreas(response.data);
-  //     })
-  // }, [areaId]);
-
   const [areas, setAreas] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [areaIdToDelete, setAreaIdToDelete] = useState(null);
 
   useEffect(() => {
     fetch("https://localhost:7239/api/area", {
@@ -59,6 +33,24 @@ function Lobby() {
       });
   }, []);
 
+  async function handleDeleteArea(id) {
+    try {
+      const response = await fetch(`https://localhost:7239/api/area/${id}`, {
+        method: "DELETE",
+      });
+
+      if (response.status === 204) {
+        setAreas(areas.filter((area) => area.id !== id));
+      } else if (response.status === 404) {
+        alert("Área não encontrada.");
+      } else {
+        alert("Erro ao deletar Área, tente novamente.");
+      }
+    } catch (err) {
+      alert("Erro ao deletar Área, tente novamente.");
+    }
+  }
+
   return (
     <>
       <div className="Background-layer">
@@ -79,7 +71,8 @@ function Lobby() {
                 <div>
                   <button
                     className="Delete-button"
-                    /* onClick={() => handleDeleteArea(area.Id)} */ type="button"
+                    onClick={() => handleDeleteArea(area.id)}
+                    type="button"
                   >
                     <FiTrash2 size="25" />
                   </button>

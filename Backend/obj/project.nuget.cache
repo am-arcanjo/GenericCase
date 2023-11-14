@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "46AwUhzomwpHlOa20mPKNYsIep0DD2vvqfMiwuksa88L17A/4W+n/+CbvpfcvWLtZP0Xf19nrGcB6AwjptRDfg==",
+  "dgSpecHash": "ZKAFdPa5/AgHv3Kusg6kViwuLTt1dyNCwpSNSrWXyJKfy7Jz4kTgDFVb7lwE8EShvJVLgVTvL4gt4JwPeJYmvg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\dti Digital\\Documents\\CaseV2\\Project\\src\\Backend\\CaseAPI.csproj",
+  "projectFilePath": "C:\\Users\\dti Digital\\Documents\\Case_CRUD\\Project\\src\\Backend\\CaseAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dti Digital\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\dti Digital\\.nuget\\packages\\microsoft.aspnetcore.cors\\2.2.0\\microsoft.aspnetcore.cors.2.2.0.nupkg.sha512",

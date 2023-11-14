@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\dti Digital\\Documents\\CaseV2\\Project\\src\\Backend\\CaseAPI.csproj": {}
+    "C:\\Users\\dti Digital\\Documents\\Case_CRUD\\Project\\src\\Backend\\CaseAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\dti Digital\\Documents\\CaseV2\\Project\\src\\Backend\\CaseAPI.csproj": {
+    "C:\\Users\\dti Digital\\Documents\\Case_CRUD\\Project\\src\\Backend\\CaseAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\dti Digital\\Documents\\CaseV2\\Project\\src\\Backend\\CaseAPI.csproj",
+        "projectUniqueName": "C:\\Users\\dti Digital\\Documents\\Case_CRUD\\Project\\src\\Backend\\CaseAPI.csproj",
         "projectName": "CaseAPI",
-        "projectPath": "C:\\Users\\dti Digital\\Documents\\CaseV2\\Project\\src\\Backend\\CaseAPI.csproj",
+        "projectPath": "C:\\Users\\dti Digital\\Documents\\Case_CRUD\\Project\\src\\Backend\\CaseAPI.csproj",
         "packagesPath": "C:\\Users\\dti Digital\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dti Digital\\Documents\\CaseV2\\Project\\src\\Backend\\obj\\",
+        "outputPath": "C:\\Users\\dti Digital\\Documents\\Case_CRUD\\Project\\src\\Backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\dti Digital\\AppData\\Roaming\\NuGet\\NuGet.Config",

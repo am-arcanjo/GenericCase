@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FiTrash2, FiEdit } from "react-icons/fi";
-import ConfirmationModal from "../../components/others/ConfirmationModal";
+import ConfirmationModal from "../../components/others";
 
 import "./style.css";
 
@@ -33,14 +33,22 @@ function Lobby() {
       });
   }, []);
 
-  async function handleDeleteArea(id) {
+  const handleDeleteArea = (id) => {
+    setAreaIdToDelete(id);
+    setShowModal(true);
+  };
+
+  const confirmDelete = async () => {
     try {
-      const response = await fetch(`https://localhost:7239/api/area/${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `https://localhost:7239/api/area/${areaIdToDelete}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (response.status === 204) {
-        setAreas(areas.filter((area) => area.id !== id));
+        setAreas(areas.filter((area) => area.id !== areaIdToDelete));
       } else if (response.status === 404) {
         alert("Área não encontrada.");
       } else {
@@ -49,7 +57,14 @@ function Lobby() {
     } catch (err) {
       alert("Erro ao deletar Área, tente novamente.");
     }
-  }
+    setShowModal(false);
+    setAreaIdToDelete(null);
+  };
+
+  const cancelDelete = () => {
+    setShowModal(false);
+    setAreaIdToDelete(null);
+  };
 
   return (
     <>
@@ -92,6 +107,13 @@ function Lobby() {
           <a>1 2 3 4</a>
         </div>
       </div>
+      {showModal && (
+        <ConfirmationModal
+          message="Você tem certeza que quer deletar essa área?"
+          onConfirm={confirmDelete}
+          onCancel={cancelDelete}
+        />
+      )}
     </>
   );
 }

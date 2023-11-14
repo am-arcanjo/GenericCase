@@ -4,11 +4,12 @@ using Microsoft.EntityFrameworkCore;
 namespace CaseAPI.Models
 
 {
-    public class AreaModel
+    public class SubprocessosModel
     {
         public int Id { get; set; }
         public string? Nome { get; set; }
-        public string? Descricao { get; set; }
-        public List<ProcessosModel>? Processos { get; set; }
+        public int ProcessosModelId { get; set; } 
+        public ProcessosModel? Processos { get; set; } 
     }
+
 }

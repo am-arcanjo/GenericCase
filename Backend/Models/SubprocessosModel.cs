@@ -11,5 +11,4 @@ namespace CaseAPI.Models
         public int ProcessosModelId { get; set; } 
         public ProcessosModel? Processos { get; set; } 
     }
-
 }

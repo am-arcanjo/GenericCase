@@ -30,6 +30,23 @@ function Area() {
     <div>
       <h1>{area.nome}</h1>
       <p>{area.descricao}</p>
+
+      <h2>Processos:</h2>
+      <ul>
+        {area.processos &&
+          area.processos.map((processo) => (
+            <li key={processo.nome}>
+              <strong>{processo.nome}</strong>
+              {processo.subprocessos && processo.subprocessos.length > 0 && (
+                <ul>
+                  {processo.subprocessos.map((subprocesso) => (
+                    <li key={subprocesso.nome}>{subprocesso.nome}</li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+      </ul>
     </div>
   );
 }

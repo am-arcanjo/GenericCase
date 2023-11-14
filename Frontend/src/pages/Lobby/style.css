@@ -80,6 +80,12 @@
 .Card li h3 {
   font-size: 20px;
   padding-bottom: 30px;
+  transition: font-size 0.3s ease, color 0.3s ease;
+}
+
+.Card li h3:hover {
+  font-size: 22px;
+  color: rgb(114, 80, 8);
 }
 
 .Card li p {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, navigate } from "react-router-dom";
 import { FiTrash2, FiEdit } from "react-icons/fi";
 import ConfirmationModal from "../../components/others";
 
@@ -9,6 +9,7 @@ function Lobby() {
   const [areas, setAreas] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [areaIdToDelete, setAreaIdToDelete] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("https://localhost:7239/api/area", {
@@ -66,6 +67,10 @@ function Lobby() {
     setAreaIdToDelete(null);
   };
 
+  const handleAreaRedirect = (id) => {
+    navigate(`/area/${id}`);
+  };
+
   return (
     <>
       <div className="Background-layer">
@@ -82,7 +87,7 @@ function Lobby() {
           {areas.map((area) => (
             <li key={area.id}>
               <div>
-                <h3>{area.nome}</h3>
+                <h3 onClick={() => handleAreaRedirect(area.id)}>{area.nome}</h3>
                 <div>
                   <button
                     className="Delete-button"

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using CaseAPI.Data;
 using CaseAPI.Models;
 using CaseAPI.Controllers;
+using System.Text.Json.Serialization;
 
 namespace CaseAPI
 {
@@ -35,6 +36,11 @@ namespace CaseAPI
                     .AllowAnyHeader()
                     .AllowAnyMethod();
                 });
+            });
+
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
             });
         }
 

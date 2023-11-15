@@ -7,6 +7,7 @@ namespace CaseAPI.Data
     {
         public AreaDbContext(DbContextOptions<AreaDbContext> options) : base(options)
         {
+            ChangeTracker.LazyLoadingEnabled = false;
         }
 
         public DbSet<AreaModel> Areas { get; set; }

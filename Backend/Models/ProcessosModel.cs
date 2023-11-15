@@ -12,5 +12,4 @@ namespace CaseAPI.Models
         public AreaModel? Area { get; set; } 
         public List<SubprocessosModel>? Subprocessos { get; set; }
     }
-
 }

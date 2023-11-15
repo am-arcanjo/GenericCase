@@ -32,13 +32,13 @@ function Area() {
       <p>{area.descricao}</p>
 
       <h2>Processos:</h2>
-      <ul>
+      <ul className="Processsos-list">
         {area.processos &&
           area.processos.map((processo) => (
             <li key={processo.nome}>
-              <strong>{processo.nome}</strong>
+              {processo.nome}
               {processo.subprocessos && processo.subprocessos.length > 0 && (
-                <ul>
+                <ul className="Subprocessos-list">
                   {processo.subprocessos.map((subprocesso) => (
                     <li key={subprocesso.nome}>{subprocesso.nome}</li>
                   ))}

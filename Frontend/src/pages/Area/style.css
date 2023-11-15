@@ -1,0 +1,21 @@
+.Procesoss-list {
+  list-style: none;
+}
+
+.Processos-list li::before {
+  content: ">";
+  margin-right: 5px;
+  color: #007bff;
+}
+
+.Subprocessos-list {
+  list-style: none;
+  margin-top: 0;
+}
+
+.Subprocessos-list li::before {
+  content: ">";
+  margin-right: 5px;
+  color: #007bff;
+  font-size: 16px;
+}

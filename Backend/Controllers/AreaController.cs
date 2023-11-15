@@ -39,27 +39,36 @@ namespace CaseAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<AreaModel>> GetArea(int id)
         {
-            Console.WriteLine($"Attempting to fetch Area with id: {id}");
             var area = await _context.Areas
                 .Include(a => a.Processos)
-                .ThenInclude(p => p.Subprocessos)
+                    .ThenInclude(p => p.Subprocessos)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
             if (area == null)
             {
-                Console.WriteLine($"Area with id {id} not found.");
                 return NotFound();
             }
 
-            area.Processos ??= new List<ProcessosModel>();
-            foreach (var processo in area.Processos)
+            var areaModel = new AreaModel
             {
-                processo.Subprocessos ??= new List<SubprocessosModel>();
-            }
+                Id = area.Id,
+                Nome = area.Nome,
+                Descricao = area.Descricao,
+                Processos = area.Processos.Select(p => new ProcessosModel
+                {
+                    Id = p.Id,
+                    Nome = p.Nome,
+                    Subprocessos = p.Subprocessos.Select(s => new SubprocessosModel
+                    {
+                        Id = s.Id,
+                        Nome = s.Nome,
+                    }).ToList(),
+                }).ToList(),
+            };
 
-            Console.WriteLine($"Area with id {id} successfully fetched.");
-            return Ok(area);
+            return Ok(areaModel);
         }
+
 
 
         [HttpPost]

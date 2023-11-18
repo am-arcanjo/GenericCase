@@ -1,21 +1,99 @@
-.Procesoss-list {
-  list-style: none;
+@import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Libre+Baskerville&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Libre+Baskerville&family=Montserrat&display=swap");
+
+.Processos {
+  background-color: #033f63;
+  width: auto;
+  height: 100vh;
+  padding-left: 5vw;
+  padding-right: 5vw;
 }
 
-.Processos-list li::before {
-  content: ">";
-  margin-right: 5px;
-  color: #007bff;
+.Area-nome {
+  font-family: "Alfa Slab One", serif;
+  font-size: 60px;
+  color: #e7e9d4;
+  text-align: left;
+  width: auto;
+  padding-top: 20px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Area-descricao {
+  font-family: "Montserrat", serif;
+  font-size: 30px;
+  color: #e7e9d4;
+  margin-bottom: 30px;
+}
+
+.Processos-item {
+  font-family: "Montserrat", serif;
+  font-size: 25px;
+  color: #e7e9d4;
+  margin-bottom: 30px;
 }
 
 .Subprocessos-list {
-  list-style: none;
-  margin-top: 0;
+  font-family: "Montserrat", serif;
+  font-size: 20px;
+  color: #e7e9d4;
+  margin-top: 10px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
-.Subprocessos-list li::before {
-  content: ">";
-  margin-right: 5px;
-  color: #007bff;
-  font-size: 16px;
+.Edit-button {
+  width: 160px;
+  height: 60px;
+  background: #065485;
+  border: 0;
+  border-radius: 8px;
+  color: #e7e9d4;
+  font-weight: 700px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 25px;
+  line-height: 60px;
+  transition: 0.2s;
+  font-family: "Montserrat", serif;
+}
+
+.Edit-button:hover {
+  color: rgba(253, 187, 45, 1);
+}
+
+.Edit-buttons {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+}
+
+.Save-button,
+.Close-button {
+  width: 160px;
+  height: 60px;
+  background: #065485;
+  border: 0;
+  border-radius: 8px;
+  color: #e7e9d4;
+  font-weight: 700px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 25px;
+  line-height: 60px;
+  transition: 0.2s;
+  font-family: "Montserrat", serif;
+}
+
+.Save-button:hover,
+.Close-button:hover {
+  color: rgba(253, 187, 45, 1);
+}
+
+.Save-button {
+  margin-right: 10px;
 }

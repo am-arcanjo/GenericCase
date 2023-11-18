@@ -16,7 +16,7 @@
   text-align: left;
   width: auto;
   padding-top: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 25px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -34,6 +34,7 @@
   font-size: 25px;
   color: #e7e9d4;
   margin-bottom: 30px;
+  list-style-type: none;
 }
 
 .Subprocessos-list {
@@ -43,6 +44,10 @@
   margin-top: 10px;
   overflow-wrap: break-word;
   word-wrap: break-word;
+  margin-left: 20px;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 .Edit-button {
@@ -96,4 +101,17 @@
 
 .Save-button {
   margin-right: 10px;
+}
+
+input,
+textarea {
+  width: calc(100% - 30px);
+  height: 40px;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
 }

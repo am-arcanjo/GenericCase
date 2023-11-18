@@ -11,35 +11,50 @@ function Area() {
   const [editedDescricao, setEditedDescricao] = useState("");
 
   const handleNomeChange = (event) => {
-    setEditedNome(event.target.innerText);
+    setEditedNome(event.target.value);
+    setArea((prevArea) => ({ ...prevArea, nome: event.target.value }));
   };
 
   const handleDescricaoChange = (event) => {
-    setEditedDescricao(event.target.innerText);
+    setEditedDescricao(event.target.value);
+    setArea((prevArea) => ({ ...prevArea, descricao: event.target.value }));
+  };
+
+  const handleProcessoChange = (event, processo) => {
+    const updatedProcessos = area.processos.map((p) =>
+      p === processo ? { ...p, nome: event.target.value } : p
+    );
+    setArea((prevArea) => ({ ...prevArea, processos: updatedProcessos }));
+  };
+
+  const handleSubprocessoChange = (event, subprocesso) => {
+    const updatedProcessos = area.processos.map((processo) => ({
+      ...processo,
+      subprocessos: processo.subprocessos.map((s) =>
+        s === subprocesso ? { ...s, nome: event.target.value } : s
+      ),
+    }));
+    setArea((prevArea) => ({ ...prevArea, processos: updatedProcessos }));
   };
 
   const handleSave = async () => {
     try {
-      // Make a PUT request to update the area on the server
       const response = await fetch(`https://localhost:7239/api/area/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          id: area.id,
           nome: editedNome,
           descricao: editedDescricao,
+          processos: area.processos,
         }),
       });
 
       if (!response.ok) {
         throw new Error("Erro ao atualizar Área no Servidor");
       }
-      setArea({
-        ...area,
-        nome: editedNome,
-        descricao: editedDescricao,
-      });
 
       setEditing(false);
     } catch (error) {
@@ -62,6 +77,10 @@ function Area() {
       .then((data) => {
         console.log(data);
         setArea(data);
+
+        // Set initial values for editedNome and editedDescricao
+        setEditedNome(data.nome);
+        setEditedDescricao(data.descricao);
       })
       .catch((error) => {
         console.error("Error fetching data: ", error);
@@ -75,44 +94,74 @@ function Area() {
   return (
     <>
       <div className="Processos">
-        <div
-          className="Area-nome"
-          contentEditable={isEditing}
-          onInput={handleNomeChange}
-        >
-          {area.nome}{" "}
-          {!isEditing && (
-            <button
-              className="Edit-button"
-              onClick={() => setEditing(!isEditing)}
-            >
-              Editar
-            </button>
+        <div className="Area-nome">
+          {isEditing ? (
+            <input type="text" value={editedNome} onChange={handleNomeChange} />
+          ) : (
+            <>
+              {area.nome}{" "}
+              <button
+                className="Edit-button"
+                onClick={() => setEditing(!isEditing)}
+              >
+                Editar
+              </button>
+            </>
           )}
         </div>
-        <p
-          className="Area-descricao"
-          contentEditable={isEditing}
-          onInput={handleDescricaoChange}
-        >
-          {area.descricao}
+        <p className="Area-descricao">
+          {isEditing ? (
+            <textarea
+              value={editedDescricao}
+              onChange={handleDescricaoChange}
+            />
+          ) : (
+            area.descricao
+          )}
         </p>
-
-        <ul className="Processsos-list">
-          {area.processos &&
-            area.processos.map((processo) => (
-              <li key={processo.nome} className="Processos-item">
-                {processo.nome}
-                {processo.subprocessos && processo.subprocessos.length > 0 && (
-                  <ul className="Subprocessos-list">
-                    {processo.subprocessos.map((subprocesso) => (
-                      <li key={subprocesso.nome}>{subprocesso.nome}</li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-            ))}
-        </ul>
+        {area.processos &&
+          area.processos.map((processo) => (
+            <li key={processo.nome} className="Processos-item">
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={processo.nome}
+                  onChange={(event) => handleProcessoChange(event, processo)}
+                />
+              ) : (
+                <>
+                  {processo.nome}{" "}
+                  {isEditing && (
+                    <button
+                      className="Edit-button"
+                      onClick={() => setEditing(!isEditing)}
+                    >
+                      Editar
+                    </button>
+                  )}
+                </>
+              )}
+              {processo.subprocessos && processo.subprocessos.length > 0 && (
+                <ul className="Subprocessos-list">
+                  {processo.subprocessos.map((subprocesso) => (
+                    <li key={subprocesso.nome}>
+                      {isEditing ? (
+                        <input
+                          type="text"
+                          value={subprocesso.nome}
+                          onChange={(event) =>
+                            handleSubprocessoChange(event, subprocesso)
+                          }
+                        />
+                      ) : (
+                        subprocesso.nome
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
         <div className="Edit-buttons">
           {isEditing && (
             <div className="Edit-buttons">

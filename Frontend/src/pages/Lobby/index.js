@@ -97,7 +97,7 @@ function Lobby() {
                     <FiTrash2 size="25" />
                   </button>
                   <button
-                    className="Edit-button"
+                    className="Edit-button-lobby"
                     /* onClick={() => handleUpdateArea(area.Id)} */ type="button"
                   >
                     <FiEdit size="25" />

@@ -81,14 +81,51 @@ namespace CaseAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutArea(int id, AreaModel area)
+        public async Task<IActionResult> PutArea(int id, AreaModel updatedArea)
         {
-            if (id != area.Id)
+            var area = await _context.Areas
+                .Include(a => a.Processos)
+                .ThenInclude(p => p.Subprocessos)
+                .FirstOrDefaultAsync(a => a.Id == id);
+
+            if (area == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            _context.Entry(area).State = EntityState.Modified;
+            if (!string.IsNullOrWhiteSpace(updatedArea.Nome))
+            {
+                area.Nome = updatedArea.Nome;
+            }
+
+            if (!string.IsNullOrWhiteSpace(updatedArea.Descricao))
+            {
+                area.Descricao = updatedArea.Descricao;
+            }
+
+            if (updatedArea.Processos != null)
+            {
+                foreach (var updatedProcesso in updatedArea.Processos)
+                {
+                    var existingProcesso = area.Processos.FirstOrDefault(p => p.Id == updatedProcesso.Id);
+                    if (existingProcesso != null)
+                    {
+                        existingProcesso.Nome = updatedProcesso.Nome;
+
+                        if (updatedProcesso.Subprocessos != null)
+                        {
+                            foreach (var updatedSubprocesso in updatedProcesso.Subprocessos)
+                            {
+                                var existingSubprocesso = existingProcesso.Subprocessos.FirstOrDefault(s => s.Id == updatedSubprocesso.Id);
+                                if (existingSubprocesso != null)
+                                {
+                                    existingSubprocesso.Nome = updatedSubprocesso.Nome;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
             try
             {
@@ -108,6 +145,7 @@ namespace CaseAPI.Controllers
 
             return NoContent();
         }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArea(int id)

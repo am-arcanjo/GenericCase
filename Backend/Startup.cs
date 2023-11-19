@@ -34,15 +34,15 @@ namespace CaseAPI
                 options.AddDefaultPolicy(builder =>
                 {
                     builder
-                    .AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod();
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
                 });
             });
 
             Log.Logger = new LoggerConfiguration()
-                        .WriteTo.File("Logs/mylog.txt", rollingInterval: RollingInterval.Day)
-                        .CreateLogger();
+                            .WriteTo.File("Logs/mylog.txt", rollingInterval: RollingInterval.Day)
+                            .CreateLogger();
 
             services.AddLogging(builder =>
             {
@@ -54,6 +54,7 @@ namespace CaseAPI
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
             });
         }
+
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

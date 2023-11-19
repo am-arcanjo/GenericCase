@@ -57,7 +57,7 @@ function Area() {
   const handleSaveModal = async (newProcesso, subprocessos) => {
     try {
       const response = await fetch(
-        `https://localhost:7239/api/area/processos`,
+        `https://localhost:7239/api/area/processos/${id}`,
         {
           method: "POST",
           headers: {
@@ -66,6 +66,7 @@ function Area() {
           body: JSON.stringify({
             nome: newProcesso,
             subprocessos,
+            areaModelId: id,
           }),
         }
       );

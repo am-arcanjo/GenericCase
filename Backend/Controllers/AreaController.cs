@@ -182,9 +182,15 @@ namespace CaseAPI.Controllers
         }
 
 
-        [HttpPost("processos")]
-        public async Task<ActionResult<ProcessosModel>> PostProcesso(ProcessosModel processo)
+        [HttpPost("processos/{areaId}")]
+        public async Task<ActionResult<ProcessosModel>> PostProcesso(ProcessosModel processo, int areaId)
         {
+            var newProcesso = new ProcessosModel
+            {
+                Nome = processo.Nome,
+                AreaModelId = areaId
+            };
+
             try
             {
                 _context.Processos.Add(processo);

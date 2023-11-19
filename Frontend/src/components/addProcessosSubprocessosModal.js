@@ -2,12 +2,7 @@ import React, { useState } from "react";
 import "./addProcessosSubprocessosModal.css";
 import { IoMdAddCircle } from "react-icons/io";
 
-const AddProcessosSubprocessosModal = ({
-  processos,
-  onConfirm,
-  onCancel,
-  onSave,
-}) => {
+const AddProcessosSubprocessosModal = ({ processos, onCancel, onSave }) => {
   const [selectedProcesso, setSelectedProcesso] = useState("");
   const [newProcesso, setNewProcesso] = useState("");
   const [newSubprocesso, setNewSubprocesso] = useState("");

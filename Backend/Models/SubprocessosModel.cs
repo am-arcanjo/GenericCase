@@ -13,6 +13,6 @@ namespace CaseAPI.Models
         public int Id { get; set; }
         public string? Nome { get; set; }
         public int ProcessosModelId { get; set; } 
-        public ProcessosModel? Processos { get; set; } 
+        public ProcessosModel? Processos { get; set; }
     }
 }

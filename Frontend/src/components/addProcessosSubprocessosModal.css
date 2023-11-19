@@ -24,6 +24,7 @@
   margin-bottom: 10px;
   color: #e7e9d4;
   font-size: 40px;
+  position: relative;
 }
 
 .Processos-Modal div,
@@ -35,7 +36,7 @@
 .Processos-Modal select,
 .Processos-Modal input,
 .Subprocessos-Modal input {
-  width: 100%;
+  width: 90%;
   padding: 5px;
   margin-top: 10px;
 }
@@ -68,6 +69,19 @@ ul li {
   color: #e7e9d4;
 }
 
-.Add-button {
+.Add-button-subprocessos {
   background-color: transparent;
+  margin-left: 10px;
+  position: absolute;
+  top: 109px;
+  right: 0px;
+}
+
+.Add-button-processos {
+  background-color: transparent;
+  margin-left: 10px;
+  position: absolute;
+  top: 135px;
+  right: 0px;
+  left: 565px;
 }

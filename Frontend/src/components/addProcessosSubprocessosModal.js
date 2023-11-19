@@ -55,6 +55,12 @@ const AddProcessosSubprocessosModal = ({
                 onChange={(e) => setNewProcesso(e.target.value)}
               />
             )}
+            <button
+              className="Add-button-processos"
+              onClick={handleAddSubprocesso}
+            >
+              <IoMdAddCircle size="40" color="rgb(83, 160, 231)" />
+            </button>
           </label>
 
           <label className="Subprocessos-Modal">
@@ -65,7 +71,10 @@ const AddProcessosSubprocessosModal = ({
               value={newSubprocesso}
               onChange={(e) => setNewSubprocesso(e.target.value)}
             />
-            <button className="Add-button" onClick={handleAddSubprocesso}>
+            <button
+              className="Add-button-subprocessos"
+              onClick={handleAddSubprocesso}
+            >
               <IoMdAddCircle size="40" color="rgb(83, 160, 231)" />
             </button>
           </label>

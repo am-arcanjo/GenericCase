@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate, navigate } from "react-router-dom";
 import { FiTrash2, FiEdit } from "react-icons/fi";
 import ConfirmationModal from "../../components/confirmationModal";
+import AddAreaModal from "../../components/addAreaModal";
 
 import "./style.css";
 
@@ -9,7 +10,16 @@ function Lobby() {
   const [areas, setAreas] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [areaIdToDelete, setAreaIdToDelete] = useState(null);
+  const [showAddAreaModal, setShowAddAreaModal] = useState(false);
   const navigate = useNavigate();
+
+  const handleAddArea = () => {
+    setShowAddAreaModal(true);
+  };
+
+  const saveArea = (name, description) => {
+    setShowAddAreaModal(false);
+  };
 
   useEffect(() => {
     fetch("https://localhost:7239/api/area", {
@@ -81,9 +91,15 @@ function Lobby() {
         <div>
           <header className="Header">
             Organizer/
-            <Link to="/" className="Register-button">
+            <button onClick={handleAddArea} className="Register-button">
               Cadastrar Área
-            </Link>
+            </button>
+            {showAddAreaModal && (
+              <AddAreaModal
+                onSave={saveArea}
+                onCancel={() => setShowAddAreaModal(false)}
+              />
+            )}
           </header>
         </div>
         Áreas Cadastradas

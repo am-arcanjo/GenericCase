@@ -56,6 +56,10 @@
   font-family: "Montserrat", serif;
 }
 
+.Register-button:hover {
+  color: rgb(253, 187, 45);
+}
+
 .Card {
   font-size: 30px;
   color: #e7e9d4;

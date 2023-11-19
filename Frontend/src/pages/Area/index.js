@@ -219,6 +219,7 @@ function Area() {
             <li key={processo.nome} className="Processos-item">
               {isEditing ? (
                 <input
+                  key={processo.id}
                   type="text"
                   value={processo.nome}
                   onChange={(event) => handleProcessoChange(event, processo)}
@@ -242,6 +243,7 @@ function Area() {
                     <li key={subprocesso.nome}>
                       {isEditing ? (
                         <input
+                          key={subprocesso.id}
                           type="text"
                           value={subprocesso.nome}
                           onChange={(event) =>

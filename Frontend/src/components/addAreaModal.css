@@ -1,0 +1,61 @@
+.Modal-Overlay-AddArea {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.Add-Area-Modal {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 30px;
+  border-radius: 8px;
+  width: 60%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.Add-Area-Name {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: #e7e9d4;
+  font-size: 30px;
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.Add-Area-Description {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: #e7e9d4;
+  font-size: 30px;
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.Add-Area-Description input,
+.Add-Area-Name input {
+  background-color: rgb(6, 84, 133);
+  border: none;
+  padding: 10px;
+}
+
+.Confirmar-Area,
+.Cancelar-Area {
+  margin-top: 15px;
+  padding: 12px;
+  cursor: pointer;
+  font-size: 20px;
+  margin-right: 15px;
+  border-radius: 8px;
+  background-color: rgb(3, 63, 99);
+  color: #e7e9d4;
+}

@@ -14,6 +14,7 @@ function Area() {
   const [newProcesso, setNewProcesso] = useState("");
   const [newSubprocesso, setNewSubprocesso] = useState("");
   const [selectedProcesso, setSelectedProcesso] = useState("");
+  const [processos, setProcessos] = useState([]);
 
   const handleNomeChange = (event) => {
     setEditedNome(event.target.value);
@@ -33,12 +34,16 @@ function Area() {
   };
 
   const handleSubprocessoChange = (event, subprocesso) => {
-    const updatedProcessos = area.processos.map((processo) => ({
-      ...processo,
-      subprocessos: processo.subprocessos.map((s) =>
-        s === subprocesso ? { ...s, nome: event.target.value } : s
-      ),
-    }));
+    const updatedProcessos = area.processos.map((processo) =>
+      processo === subprocesso.processo
+        ? {
+            ...processo,
+            subprocessos: processo.subprocessos.map((s) =>
+              s === subprocesso ? { ...s, nome: event.target.value } : s
+            ),
+          }
+        : processo
+    );
     setArea((prevArea) => ({ ...prevArea, processos: updatedProcessos }));
   };
 
@@ -49,8 +54,14 @@ function Area() {
     setShowModal(true);
   };
 
-  const handleSaveModal = () => {
-    console.log("Saving", newProcesso, newSubprocesso, selectedProcesso);
+  const handleSaveModal = (newProcesso, subprocessos) => {
+    const updatedProcessos = [
+      ...area.processos,
+      { nome: newProcesso, subprocessos },
+    ];
+    setArea((prevArea) => ({ ...prevArea, processos: updatedProcessos }));
+
+    setProcessos((prevProcessos) => [...prevProcessos, { nome: newProcesso }]);
     setNewProcesso("");
     setNewSubprocesso("");
     setSelectedProcesso("");

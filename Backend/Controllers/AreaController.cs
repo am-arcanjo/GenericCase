@@ -167,6 +167,30 @@ namespace CaseAPI.Controllers
         {
             return _context.Areas.Any(e => e.Id == id);
         }
+
+        [HttpGet("processos/{id}")]
+        public async Task<ActionResult<ProcessosModel>> GetProcesso(int id)
+        {
+            var processo = await _context.Processos.FindAsync(id);
+
+            if (processo == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(processo);
+        }
+
+
+        [HttpPost("processos")]
+        public async Task<ActionResult<ProcessosModel>> PostProcesso(ProcessosModel processo)
+        {
+            _context.Processos.Add(processo);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetProcesso), new { id = processo.Id }, processo);
+        }
+
     }
 }
 

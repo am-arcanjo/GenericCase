@@ -54,18 +54,43 @@ function Area() {
     setShowModal(true);
   };
 
-  const handleSaveModal = (newProcesso, subprocessos) => {
-    const updatedProcessos = [
-      ...area.processos,
-      { nome: newProcesso, subprocessos },
-    ];
-    setArea((prevArea) => ({ ...prevArea, processos: updatedProcessos }));
+  const handleSaveModal = async (newProcesso, subprocessos) => {
+    try {
+      const response = await fetch(
+        `https://localhost:7239/api/area/processos`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nome: newProcesso,
+            subprocessos,
+          }),
+        }
+      );
 
-    setProcessos((prevProcessos) => [...prevProcessos, { nome: newProcesso }]);
-    setNewProcesso("");
-    setNewSubprocesso("");
-    setSelectedProcesso("");
-    setShowModal(false);
+      if (!response.ok) {
+        throw new Error("Erro ao adicionar Processo");
+      }
+
+      const createdProcesso = await response.json();
+
+      const updatedProcessos = [
+        ...area.processos,
+        { ...createdProcesso, subprocessos },
+      ];
+
+      setArea((prevArea) => ({ ...prevArea, processos: updatedProcessos }));
+      setProcessos((prevProcessos) => [...prevProcessos, createdProcesso]);
+
+      setNewProcesso("");
+      setNewSubprocesso("");
+      setSelectedProcesso("");
+      setShowModal(false);
+    } catch (error) {
+      console.error("Erro ao adicionar Processo:", error);
+    }
   };
 
   const handleCloseModal = () => {
@@ -125,6 +150,7 @@ function Area() {
           ...prevArea,
           processos: data.processos || [],
         }));
+        setProcessos(data.processos || []);
       })
       .catch((error) => {
         console.error("Error fetching data: ", error);
@@ -230,16 +256,9 @@ function Area() {
         </div>
         {showModal && (
           <AddProcessosSubprocessosModal
-            newProcesso={newProcesso}
-            newSubprocesso={newSubprocesso}
-            selectedProcesso={selectedProcesso}
             processos={area.processos}
-            onProcessoChange={(e) => setNewProcesso(e.target.value)}
-            onSubprocessoChange={(e) => setNewSubprocesso(e.target.value)}
-            onProcessoSelect={(e) => setSelectedProcesso(e.target.value)}
-            onConfirm={handleSaveModal}
             onSave={handleSaveModal}
-            onClose={handleCloseModal}
+            onCancel={handleCloseModal}
           />
         )}
       </div>

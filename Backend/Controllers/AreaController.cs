@@ -185,12 +185,20 @@ namespace CaseAPI.Controllers
         [HttpPost("processos")]
         public async Task<ActionResult<ProcessosModel>> PostProcesso(ProcessosModel processo)
         {
-            _context.Processos.Add(processo);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Processos.Add(processo);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetProcesso), new { id = processo.Id }, processo);
+                return CreatedAtAction(nameof(GetProcesso), new { id = processo.Id }, processo);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception details
+                Console.WriteLine($"Error in PostProcesso: {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
         }
-
     }
 }
 

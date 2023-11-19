@@ -24,9 +24,17 @@ const AddProcessosSubprocessosModal = ({
   };
 
   const handleSave = () => {
-    if ((selectedProcesso || newProcesso) && processos) {
-      onSave(selectedProcesso || newProcesso, subprocessos);
+    try {
+      if ((selectedProcesso || newProcesso) && processos) {
+        onSave(selectedProcesso || newProcesso, subprocessos);
+      }
+    } catch (error) {
+      console.error("Error in handleSave:", error);
     }
+  };
+
+  const handleCancel = () => {
+    onCancel();
   };
 
   console.log("Processos array:", processos);
@@ -102,7 +110,7 @@ const AddProcessosSubprocessosModal = ({
             <button className="Confirmar" onClick={handleSave}>
               Confirmar
             </button>
-            <button className="Cancelar" onClick={onCancel}>
+            <button className="Cancelar" onClick={handleCancel}>
               Cancelar
             </button>
           </div>

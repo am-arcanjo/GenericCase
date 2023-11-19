@@ -9,13 +9,11 @@ const AddProcessosSubprocessosModal = ({ processos, onCancel, onSave }) => {
   const [subprocessos, setSubprocessos] = useState([]);
 
   const handleAddSubprocesso = () => {
-    if (newSubprocesso.trim() !== "") {
-      setSubprocessos((prevSubprocessos) => [
-        ...prevSubprocessos,
-        newSubprocesso.trim(),
-      ]);
-      setNewSubprocesso("");
-    }
+    setSubprocessos((prevSubprocessos) => [
+      ...prevSubprocessos,
+      newSubprocesso,
+    ]);
+    setNewSubprocesso("");
   };
 
   const handleAddProcesso = () => {
@@ -47,7 +45,7 @@ const AddProcessosSubprocessosModal = ({ processos, onCancel, onSave }) => {
               <option value="">selecione um processo</option>
               {processos &&
                 processos.map((processo) => (
-                  <option key={processo.nome} value={processo.nome}>
+                  <option key={processo.id} value={processo.nome}>
                     {processo.nome}
                   </option>
                 ))}

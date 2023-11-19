@@ -194,10 +194,10 @@ namespace CaseAPI.Controllers
 
             try
             {
-                _context.Processos.Add(processo);
+                _context.Processos.Add(newProcesso);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction(nameof(GetProcesso), new { id = processo.Id }, processo);
+                return CreatedAtAction(nameof(GetProcesso), new { id = newProcesso.Id }, newProcesso);
             }
             catch (Exception ex)
             {
@@ -205,6 +205,44 @@ namespace CaseAPI.Controllers
                 return StatusCode(500, "Internal Server Error");
             }
         }
+
+        [HttpPost("subprocessos/{processoId}")]
+        public async Task<ActionResult<SubprocessosModel>> PostSubprocesso(SubprocessosModel subprocesso, int processoId)
+        {
+            var newSubprocesso = new SubprocessosModel
+            {
+                Nome = subprocesso.Nome,
+                ProcessosModelId = processoId,
+            };
+
+            try
+            {
+                _context.Subprocessos.Add(newSubprocesso);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction(nameof(GetSubprocesso), new { id = newSubprocesso.Id }, newSubprocesso);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in PostSubprocesso: {ex}");
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+
+
+        [HttpGet("subprocessos/{id}")]
+        public async Task<ActionResult<SubprocessosModel>> GetSubprocesso(int id)
+        {
+            var subprocesso = await _context.Subprocessos.FindAsync(id);
+
+            if (subprocesso == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(subprocesso);
+        }
+
 
     }
 }

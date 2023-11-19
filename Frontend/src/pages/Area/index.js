@@ -56,7 +56,7 @@ function Area() {
 
   const handleSaveModal = async (newProcesso, subprocessos) => {
     try {
-      const response = await fetch(
+      const processoResponse = await fetch(
         `https://localhost:7239/api/area/processos/${id}`,
         {
           method: "POST",
@@ -64,22 +64,46 @@ function Area() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            nome: newProcesso,
-            subprocessos: subprocessos,
-            areaModelId: id,
+            Nome: newProcesso,
+            AreaModelId: id,
           }),
         }
       );
 
-      if (!response.ok) {
+      if (!processoResponse.ok) {
         throw new Error("Erro ao adicionar Processo");
       }
 
-      const createdProcesso = await response.json();
+      const createdProcesso = await processoResponse.json();
+
+      const subprocessoResponses = await Promise.all(
+        subprocessos.map((subprocesso) =>
+          fetch(
+            `https://localhost:7239/api/area/subprocessos/${createdProcesso.id}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                Nome: subprocesso,
+                ProcessosModelId: createdProcesso.id,
+              }),
+            }
+          )
+        )
+      );
+
+      const createdSubprocessos = await Promise.all(
+        subprocessoResponses.map((response) => response.json())
+      );
+
+      console.log("Created Processo:", createdProcesso);
+      console.log("Created Subprocessos:", createdSubprocessos);
 
       const updatedProcessos = [
         ...area.processos,
-        { ...createdProcesso, subprocessos },
+        { ...createdProcesso, subprocessos: createdSubprocessos },
       ];
 
       setArea((prevArea) => ({ ...prevArea, processos: updatedProcessos }));

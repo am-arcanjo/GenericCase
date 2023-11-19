@@ -17,8 +17,27 @@ function Lobby() {
     setShowAddAreaModal(true);
   };
 
-  const saveArea = (name, description) => {
+  const saveArea = async (name, description) => {
     setShowAddAreaModal(false);
+
+    try {
+      const response = await fetch("https://localhost:7239/api/area", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      setAreas(data);
+    } catch (error) {
+      console.error("Error fetching updated data: ", error);
+    }
   };
 
   useEffect(() => {

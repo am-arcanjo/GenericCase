@@ -69,8 +69,14 @@ ul li {
   color: #e7e9d4;
 }
 
+.Confirmar:hover,
+.Cancelar:hover {
+  color: rgb(6, 84, 133);
+}
+
 .Add-button-subprocessos {
   background-color: transparent;
+  color: rgb(83, 160, 231);
   margin-left: 10px;
   position: absolute;
   top: 109px;
@@ -79,6 +85,7 @@ ul li {
 
 .Add-button-processos {
   background-color: transparent;
+  color: rgb(83, 160, 231);
   margin-left: 10px;
   position: absolute;
   top: 135px;
@@ -86,14 +93,23 @@ ul li {
   left: 565px;
 }
 
-.Add-button-subprocessos:hover,
-.Add-button-processos:hover {
-  color: rgb(50, 144, 238);
+.Add-button-processos:hover,
+.Add-button-subprocessos:hover {
+  color: rgb(26, 113, 201);
 }
 
 .Dropdown-Processos {
   background-color: rgb(6, 84, 133);
   border-radius: 8px;
+  color: #e7e9d4;
+  height: 30px;
+  z-index: 1001;
+}
+
+.Dropdown-Processos.placeholder {
+  color: #bebeb1;
+  font-size: 15px;
+  font-style: italic;
 }
 
 .Input-Processos,

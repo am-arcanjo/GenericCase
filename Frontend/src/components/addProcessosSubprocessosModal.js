@@ -29,6 +29,8 @@ const AddProcessosSubprocessosModal = ({
     }
   };
 
+  console.log("Processos array:", processos);
+
   return (
     <div className="Modal-Overlay">
       <div className="Processos-Subprocessos-Modal">
@@ -39,13 +41,15 @@ const AddProcessosSubprocessosModal = ({
             <select
               value={selectedProcesso}
               onChange={(e) => setSelectedProcesso(e.target.value)}
-              className="Dropdown-Processos"
+              className={`Dropdown-Processos${
+                selectedProcesso === "" ? " placeholder" : ""
+              }`}
             >
-              <option value=""></option>
+              <option value="">selecione um processo</option>
               {processos &&
                 processos.map((processo) => (
-                  <option key={processo} value={processo}>
-                    {processo}
+                  <option key={processo.nome} value={processo.nome}>
+                    {processo.nome}
                   </option>
                 ))}
             </select>
@@ -60,8 +64,9 @@ const AddProcessosSubprocessosModal = ({
             <button
               className="Add-button-processos"
               onClick={handleAddSubprocesso}
+              type="button"
             >
-              <IoMdAddCircle size="40" color="rgb(83, 160, 231)" />
+              <IoMdAddCircle size="40" />
             </button>
           </label>
 
@@ -77,8 +82,9 @@ const AddProcessosSubprocessosModal = ({
             <button
               className="Add-button-subprocessos"
               onClick={handleAddSubprocesso}
+              type="button"
             >
-              <IoMdAddCircle size="40" color="rgb(83, 160, 231)" />
+              <IoMdAddCircle size="40" />
             </button>
           </label>
 

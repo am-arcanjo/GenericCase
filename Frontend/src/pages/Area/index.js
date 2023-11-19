@@ -110,6 +110,10 @@ function Area() {
         setArea(data);
         setEditedNome(data.nome);
         setEditedDescricao(data.descricao);
+        setArea((prevArea) => ({
+          ...prevArea,
+          processos: data.processos || [],
+        }));
       })
       .catch((error) => {
         console.error("Error fetching data: ", error);
@@ -218,9 +222,11 @@ function Area() {
             newProcesso={newProcesso}
             newSubprocesso={newSubprocesso}
             selectedProcesso={selectedProcesso}
+            processos={area.processos}
             onProcessoChange={(e) => setNewProcesso(e.target.value)}
             onSubprocessoChange={(e) => setNewSubprocesso(e.target.value)}
             onProcessoSelect={(e) => setSelectedProcesso(e.target.value)}
+            onConfirm={handleSaveModal}
             onSave={handleSaveModal}
             onClose={handleCloseModal}
           />

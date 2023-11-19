@@ -94,7 +94,7 @@ function Lobby() {
                 <h3 onClick={() => handleAreaRedirect(area.id)}>{area.nome}</h3>
                 <div>
                   <button
-                    className="Delete-button"
+                    className="Delete-button-lobby"
                     onClick={() => handleDeleteArea(area.id)}
                     type="button"
                   >

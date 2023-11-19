@@ -103,6 +103,26 @@
   margin-right: 10px;
 }
 
+.Add-subprocesso,
+.Add-processo {
+  width: 250px;
+  height: 40px;
+  background: #033f63;
+  color: #e7e9d4;
+  text-align: center;
+  text-decoration: none;
+  font-size: 20px;
+  transition: 0.2s;
+  font-family: "Montserrat", serif;
+  transition: transform 0.4s ease;
+  margin-right: 10px;
+}
+
+.Add-subprocesso:hover,
+.Add-processo:hover {
+  transform: scale(1.1);
+}
+
 input,
 textarea {
   width: calc(100% - 30px);
@@ -113,5 +133,7 @@ textarea {
   border-radius: 4px;
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
-  font-size: 16px;
+  font-size: 20px;
+  background-color: #065485;
+  color: #e7e9d4;
 }

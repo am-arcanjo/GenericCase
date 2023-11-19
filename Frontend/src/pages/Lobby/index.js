@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, navigate } from "react-router-dom";
 import { FiTrash2, FiEdit } from "react-icons/fi";
-import ConfirmationModal from "../../components/others";
+import ConfirmationModal from "../../components/confirmationModal";
 
 import "./style.css";
 
@@ -71,6 +71,10 @@ function Lobby() {
     navigate(`/area/${id}`);
   };
 
+  const handleUpdateArea = (id) => {
+    navigate(`/area/${id}?edit=true`);
+  };
+
   return (
     <>
       <div className="Background-layer">
@@ -98,7 +102,8 @@ function Lobby() {
                   </button>
                   <button
                     className="Edit-button-lobby"
-                    /* onClick={() => handleUpdateArea(area.Id)} */ type="button"
+                    onClick={() => handleUpdateArea(area.id)}
+                    type="button"
                   >
                     <FiEdit size="25" />
                   </button>

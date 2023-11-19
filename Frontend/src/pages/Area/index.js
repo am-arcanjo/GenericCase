@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Link, useNavigate, navigate } from "react-router-dom";
+import AddProcessosSubprocessosModal from "../../components/addProcessosSubprocessosModal";
 import "./style.css";
 
 function Area() {
@@ -9,6 +10,10 @@ function Area() {
   const [isEditing, setEditing] = useState(false);
   const [editedNome, setEditedNome] = useState("");
   const [editedDescricao, setEditedDescricao] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [newProcesso, setNewProcesso] = useState("");
+  const [newSubprocesso, setNewSubprocesso] = useState("");
+  const [selectedProcesso, setSelectedProcesso] = useState("");
 
   const handleNomeChange = (event) => {
     setEditedNome(event.target.value);
@@ -35,6 +40,28 @@ function Area() {
       ),
     }));
     setArea((prevArea) => ({ ...prevArea, processos: updatedProcessos }));
+  };
+
+  const handleAddProcesso = () => {
+    setNewProcesso("");
+    setNewSubprocesso("");
+    setSelectedProcesso("");
+    setShowModal(true);
+  };
+
+  const handleSaveModal = () => {
+    console.log("Saving", newProcesso, newSubprocesso, selectedProcesso);
+    setNewProcesso("");
+    setNewSubprocesso("");
+    setSelectedProcesso("");
+    setShowModal(false);
+  };
+
+  const handleCloseModal = () => {
+    setNewProcesso("");
+    setNewSubprocesso("");
+    setSelectedProcesso("");
+    setShowModal(false);
   };
 
   const handleSave = async () => {
@@ -67,6 +94,10 @@ function Area() {
   };
 
   useEffect(() => {
+    const url = new URL(window.location.href);
+    const isEditing = url.searchParams.get("edit") === "true";
+    setEditing(isEditing);
+
     fetch(`https://localhost:7239/api/area/${id}`)
       .then((response) => {
         if (!response.ok) {
@@ -77,8 +108,6 @@ function Area() {
       .then((data) => {
         console.log(data);
         setArea(data);
-
-        // Set initial values for editedNome and editedDescricao
         setEditedNome(data.nome);
         setEditedDescricao(data.descricao);
       })
@@ -162,18 +191,40 @@ function Area() {
               )}
             </li>
           ))}
-        <div className="Edit-buttons">
+        <div>
           {isEditing && (
-            <div className="Edit-buttons">
-              <button className="Save-button" onClick={handleSave}>
-                Salvar
-              </button>
-              <button className="Close-button" onClick={handleClose}>
-                Fechar
-              </button>
+            <div>
+              <div className="Edit-buttons">
+                <button className="Save-button" onClick={handleSave}>
+                  Salvar
+                </button>
+                <button className="Close-button" onClick={handleClose}>
+                  Fechar
+                </button>
+              </div>
+              <div>
+                <button className="Add-processo" onClick={handleAddProcesso}>
+                  Adicionar Processo
+                </button>
+                <button className="Add-subprocesso" onClick={handleAddProcesso}>
+                  Adicionar Subprocesso
+                </button>
+              </div>
             </div>
           )}
         </div>
+        {showModal && (
+          <AddProcessosSubprocessosModal
+            newProcesso={newProcesso}
+            newSubprocesso={newSubprocesso}
+            selectedProcesso={selectedProcesso}
+            onProcessoChange={(e) => setNewProcesso(e.target.value)}
+            onSubprocessoChange={(e) => setNewSubprocesso(e.target.value)}
+            onProcessoSelect={(e) => setSelectedProcesso(e.target.value)}
+            onSave={handleSaveModal}
+            onClose={handleCloseModal}
+          />
+        )}
       </div>
     </>
   );

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ZKAFdPa5/AgHv3Kusg6kViwuLTt1dyNCwpSNSrWXyJKfy7Jz4kTgDFVb7lwE8EShvJVLgVTvL4gt4JwPeJYmvg==",
+  "dgSpecHash": "BOS6r+oyUFQvioIaKnTj3JGE3Ar9xtJqBTa9SJLCbq4bf9XNwScXYL2lkclo8WK6KBYTidLabDdAWDMfKyEt9Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\dti Digital\\Documents\\Case_CRUD\\Project\\src\\Backend\\CaseAPI.csproj",
   "expectedPackageFiles": [
@@ -31,6 +31,7 @@
     "C:\\Users\\dti Digital\\.nuget\\packages\\microsoft.extensions.primitives\\6.0.0\\microsoft.extensions.primitives.6.0.0.nupkg.sha512",
     "C:\\Users\\dti Digital\\.nuget\\packages\\microsoft.net.http.headers\\2.2.0\\microsoft.net.http.headers.2.2.0.nupkg.sha512",
     "C:\\Users\\dti Digital\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\dti Digital\\.nuget\\packages\\serilog\\3.1.1\\serilog.3.1.1.nupkg.sha512",
     "C:\\Users\\dti Digital\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\2.0.6\\sqlitepclraw.bundle_e_sqlite3.2.0.6.nupkg.sha512",
     "C:\\Users\\dti Digital\\.nuget\\packages\\sqlitepclraw.core\\2.0.6\\sqlitepclraw.core.2.0.6.nupkg.sha512",
     "C:\\Users\\dti Digital\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.0.6\\sqlitepclraw.lib.e_sqlite3.2.0.6.nupkg.sha512",

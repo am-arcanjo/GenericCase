@@ -8,6 +8,8 @@ using CaseAPI.Data;
 using CaseAPI.Models;
 using CaseAPI.Controllers;
 using System.Text.Json.Serialization;
+using Serilog;
+using Microsoft.Extensions.Logging;
 
 namespace CaseAPI
 {
@@ -36,6 +38,15 @@ namespace CaseAPI
                     .AllowAnyHeader()
                     .AllowAnyMethod();
                 });
+            });
+
+            Log.Logger = new LoggerConfiguration()
+                        .WriteTo.File("Logs/mylog.txt", rollingInterval: RollingInterval.Day)
+                        .CreateLogger();
+
+            services.AddLogging(builder =>
+            {
+                builder.AddSerilog();
             });
 
             services.AddControllers().AddJsonOptions(options =>

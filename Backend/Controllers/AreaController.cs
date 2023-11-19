@@ -192,15 +192,13 @@ namespace CaseAPI.Controllers
 
                 return CreatedAtAction(nameof(GetProcesso), new { id = processo.Id }, processo);
             }
-              catch (Exception ex)
+            catch (Exception ex)
             {
-               
-                Console.WriteLine($"Error in PostProcesso: {ex.Message}");
-                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+                Console.WriteLine($"Error in PostProcesso: {ex}");
                 return StatusCode(500, "Internal Server Error");
             }
-
         }
+
     }
 }
 

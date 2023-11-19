@@ -39,6 +39,7 @@ const AddProcessosSubprocessosModal = ({
             <select
               value={selectedProcesso}
               onChange={(e) => setSelectedProcesso(e.target.value)}
+              className="Dropdown-Processos"
             >
               <option value=""></option>
               {processos &&
@@ -53,6 +54,7 @@ const AddProcessosSubprocessosModal = ({
                 type="text"
                 value={newProcesso}
                 onChange={(e) => setNewProcesso(e.target.value)}
+                className="Input-Processos"
               />
             )}
             <button
@@ -70,6 +72,7 @@ const AddProcessosSubprocessosModal = ({
               type="text"
               value={newSubprocesso}
               onChange={(e) => setNewSubprocesso(e.target.value)}
+              className="Input-Subprocessos"
             />
             <button
               className="Add-button-subprocessos"

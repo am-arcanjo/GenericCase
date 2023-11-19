@@ -85,3 +85,20 @@ ul li {
   right: 0px;
   left: 565px;
 }
+
+.Add-button-subprocessos:hover,
+.Add-button-processos:hover {
+  color: rgb(50, 144, 238);
+}
+
+.Dropdown-Processos {
+  background-color: rgb(6, 84, 133);
+  border-radius: 8px;
+}
+
+.Input-Processos,
+.Input-Subprocessos {
+  background-color: rgb(6, 84, 133);
+  border-radius: 8px;
+  border-color: transparent;
+}

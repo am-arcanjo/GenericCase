@@ -4,12 +4,36 @@ import "./addAreaModal.css";
 function AddAreaModal({ onSave, onCancel }) {
   const [areaName, setAreaName] = useState("");
   const [areaDescription, setAreaDescription] = useState("");
+  const [showAddAreaModal, setShowAddAreaModal] = useState(false);
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    console.log("Saving area:", areaName, areaDescription);
     if (areaName.trim() !== "") {
-      onSave(areaName, areaDescription);
-      setAreaName("");
-      setAreaDescription("");
+      try {
+        const response = await fetch("https://localhost:7239/api/area", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nome: areaName,
+            descricao: areaDescription,
+          }),
+        });
+        console.log("Response:", response);
+        if (response.ok) {
+          const newArea = await response.json();
+          onSave(newArea.nome, newArea.descricao);
+          setAreaName("");
+          setAreaDescription("");
+          setShowAddAreaModal(false);
+        } else {
+          alert("Erro ao adicionar a área. Por favor, tente novamente.");
+        }
+      } catch (error) {
+        console.error("Error adding area:", error);
+        alert("Erro ao adicionar a área. Por favor, tente novamente.");
+      }
     } else {
       alert("Por favor, insira o nome da área.");
     }

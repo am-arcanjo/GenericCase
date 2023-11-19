@@ -65,7 +65,7 @@ function Area() {
           },
           body: JSON.stringify({
             nome: newProcesso,
-            subprocessos,
+            subprocessos: subprocessos,
             areaModelId: id,
           }),
         }

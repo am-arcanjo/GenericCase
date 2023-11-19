@@ -29,7 +29,6 @@
 
 .Processos-Modal div,
 .Subprocessos-Modal div {
-  margin-top: 5px;
   font-size: 30px;
 }
 
@@ -77,20 +76,11 @@ ul li {
 .Add-button-subprocessos {
   background-color: transparent;
   color: rgb(83, 160, 231);
-  margin-left: 10px;
-  position: absolute;
-  top: 109px;
-  right: 0px;
 }
 
 .Add-button-processos {
   background-color: transparent;
   color: rgb(83, 160, 231);
-  margin-left: 10px;
-  position: absolute;
-  top: 135px;
-  right: 0px;
-  left: 565px;
 }
 
 .Add-button-processos:hover,
@@ -117,4 +107,8 @@ ul li {
   background-color: rgb(6, 84, 133);
   border-radius: 8px;
   border-color: transparent;
+}
+
+.Processos-Subprocessos-Espaco {
+  padding: 8px;
 }

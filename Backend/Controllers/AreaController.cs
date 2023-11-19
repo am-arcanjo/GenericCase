@@ -188,7 +188,8 @@ namespace CaseAPI.Controllers
             var newProcesso = new ProcessosModel
             {
                 Nome = processo.Nome,
-                AreaModelId = areaId
+                AreaModelId = areaId,
+                Subprocessos = processo.Subprocessos
             };
 
             try

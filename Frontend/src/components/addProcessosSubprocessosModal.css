@@ -83,8 +83,14 @@ ul li {
   color: rgb(83, 160, 231);
 }
 
+.Find-button-processos {
+  background-color: transparent;
+  color: rgb(83, 160, 231);
+}
+
 .Add-button-processos:hover,
-.Add-button-subprocessos:hover {
+.Add-button-subprocessos:hover,
+.Find-button-processos:hover {
   color: rgb(26, 113, 201);
 }
 

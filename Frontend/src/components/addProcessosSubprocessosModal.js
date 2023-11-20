@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import "./addProcessosSubprocessosModal.css";
-import { IoMdAddCircle } from "react-icons/io";
+import { IoMdAddCircle, IoMdSearch } from "react-icons/io";
 
-const AddProcessosSubprocessosModal = ({ processos, onCancel, onSave }) => {
-  const [selectedProcesso, setSelectedProcesso] = useState("");
+const AddProcessosSubprocessosModal = ({
+  processos,
+  onCancel,
+  onSave,
+  onFind,
+  selectedProcesso,
+  selectedProcessoId,
+}) => {
+  const [selectedProcessos, setSelectedProcesso] = useState("");
   const [newProcesso, setNewProcesso] = useState("");
   const [newSubprocesso, setNewSubprocesso] = useState("");
   const [subprocessos, setSubprocessos] = useState([]);
@@ -22,6 +29,19 @@ const AddProcessosSubprocessosModal = ({ processos, onCancel, onSave }) => {
     }
   };
 
+  const handleFindProcesso = () => {
+    const foundProcesso = processos.find(
+      (p) => p.nome === (selectedProcesso || newProcesso)
+    );
+
+    if (foundProcesso) {
+      alert("Correspondência encontrada, processo selecionado");
+      onFind(foundProcesso);
+    } else {
+      alert("Não foi possível encontrar esse processo nessa área");
+    }
+  };
+
   const handleCancel = () => {
     onCancel();
   };
@@ -34,35 +54,29 @@ const AddProcessosSubprocessosModal = ({ processos, onCancel, onSave }) => {
         <div>
           <label className="Processos-Modal">
             Processos
-            <div>escolha um processo existente ou crie um novo</div>
-            <select
-              value={selectedProcesso}
-              onChange={(e) => setSelectedProcesso(e.target.value)}
-              className={`Dropdown-Processos${
-                selectedProcesso === "" ? " placeholder" : ""
-              }`}
-            >
-              <option value="">selecione um processo</option>
-              {processos &&
-                processos.map((processo) => (
-                  <option key={processo.id} value={processo.nome}>
-                    {processo.nome}
-                  </option>
-                ))}
-            </select>
+            <div>procure um processo existente ou crie um novo</div>
             <input
               type="text"
               value={newProcesso}
               onChange={(e) => setNewProcesso(e.target.value)}
               className="Input-Processos"
             />
-            <button
-              className="Add-button-processos"
-              onClick={handleAddProcesso}
-              type="button"
-            >
-              <IoMdAddCircle size="30px" />
-            </button>
+            <div>
+              <button
+                className="Find-button-processos"
+                onClick={handleFindProcesso}
+                type="button"
+              >
+                <IoMdSearch size="30px" />
+              </button>
+              <button
+                className="Add-button-processos"
+                onClick={handleAddProcesso}
+                type="button"
+              >
+                <IoMdAddCircle size="30px" />
+              </button>
+            </div>
           </label>
           <div className="Processos-Subprocessos-Espaco"></div>
           <label className="Subprocessos-Modal">

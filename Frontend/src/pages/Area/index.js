@@ -15,6 +15,7 @@ function Area() {
   const [newSubprocesso, setNewSubprocesso] = useState("");
   const [selectedProcesso, setSelectedProcesso] = useState("");
   const [processos, setProcessos] = useState([]);
+  const [selectedProcessoId, setSelectedProcessoId] = useState(null);
 
   const handleNomeChange = (event) => {
     setEditedNome(event.target.value);
@@ -47,10 +48,16 @@ function Area() {
     setArea((prevArea) => ({ ...prevArea, processos: updatedProcessos }));
   };
 
+  const handleFindProcess = (foundProcesso) => {
+    setSelectedProcesso(foundProcesso.nome);
+    setSelectedProcessoId(foundProcesso.id);
+  };
+
   const handleAddProcesso = () => {
     setNewProcesso("");
     setNewSubprocesso("");
     setSelectedProcesso("");
+    setSelectedProcessoId(null);
     setShowModal(true);
   };
 
@@ -70,16 +77,10 @@ function Area() {
         }
       );
 
-      if (!processoResponse.ok) {
-        throw new Error("Erro ao adicionar Processo");
-      }
-
-      const createdProcesso = await processoResponse.json();
-
       const subprocessoResponses = await Promise.all(
         subprocessos.map((subprocesso) =>
           fetch(
-            `https://localhost:7239/api/area/subprocessos/${createdProcesso.id}`,
+            `https://localhost:7239/api/area/subprocessos/${selectedProcessoId}`,
             {
               method: "POST",
               headers: {
@@ -87,12 +88,18 @@ function Area() {
               },
               body: JSON.stringify({
                 Nome: subprocesso,
-                ProcessosModelId: createdProcesso.id,
+                ProcessosModelId: selectedProcessoId,
               }),
             }
           )
         )
       );
+
+      if (!processoResponse.ok) {
+        throw new Error("Erro ao adicionar Processo");
+      }
+
+      const createdProcesso = await processoResponse.json();
 
       const createdSubprocessos = await Promise.all(
         subprocessoResponses.map((response) => response.json())
@@ -219,7 +226,6 @@ function Area() {
             <li key={processo.nome} className="Processos-item">
               {isEditing ? (
                 <input
-                  key={processo.id}
                   type="text"
                   value={processo.nome}
                   onChange={(event) => handleProcessoChange(event, processo)}
@@ -243,7 +249,6 @@ function Area() {
                     <li key={subprocesso.nome}>
                       {isEditing ? (
                         <input
-                          key={subprocesso.id}
                           type="text"
                           value={subprocesso.nome}
                           onChange={(event) =>
@@ -284,8 +289,11 @@ function Area() {
         {showModal && (
           <AddProcessosSubprocessosModal
             processos={area.processos}
+            onFind={handleFindProcess}
             onSave={handleSaveModal}
             onCancel={handleCloseModal}
+            selectedProcesso={selectedProcesso}
+            selectedProcessoId={selectedProcessoId}
           />
         )}
       </div>

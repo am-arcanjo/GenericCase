@@ -4,7 +4,7 @@ using CaseAPI.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-
+using System.Linq;
 
 namespace CaseAPI.Controllers
 {
@@ -185,6 +185,7 @@ namespace CaseAPI.Controllers
         [HttpPost("processos/{areaId}")]
         public async Task<ActionResult<ProcessosModel>> PostProcesso(ProcessosModel processo, int areaId)
         {
+
             var newProcesso = new ProcessosModel
             {
                 Nome = processo.Nome,
@@ -194,10 +195,34 @@ namespace CaseAPI.Controllers
 
             try
             {
-                _context.Processos.Add(newProcesso);
-                await _context.SaveChangesAsync();
+                var existingProcess = await _context.Processos.FindAsync(processo.Id);
+                if (existingProcess == null)
+                {
+                    _context.Processos.Add(newProcesso);
+                    await _context.SaveChangesAsync();
 
-                return CreatedAtAction(nameof(GetProcesso), new { id = newProcesso.Id }, newProcesso);
+                    return CreatedAtAction(nameof(GetProcesso), new { id = newProcesso.Id }, newProcesso);
+                }
+                else
+                {
+                    foreach (var newSubprocesso in processo.Subprocessos)
+                    {
+                        existingProcess.Subprocessos.Add(new SubprocessosModel
+                        {
+                            Nome = newSubprocesso.Nome,
+                            ProcessosModelId = existingProcess.Id
+                        });
+                    }
+
+                    _context.Entry(existingProcess).State = EntityState.Modified;
+                    await _context.SaveChangesAsync();
+                    var addedSubprocessos = await _context.Subprocessos
+                        .Where(s => s.ProcessosModelId == existingProcess.Id &&
+                               processo.Subprocessos.Any(newSubprocesso => newSubprocesso.Nome == s.Nome))
+                        .ToListAsync();
+
+                    return Ok(addedSubprocessos);
+                }
             }
             catch (Exception ex)
             {

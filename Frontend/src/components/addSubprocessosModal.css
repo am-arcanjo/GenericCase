@@ -1,0 +1,115 @@
+.Modal-Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.Processos-Subprocessos-Modal {
+  display: flex;
+  flex-direction: column;
+}
+
+.Processos-Modal,
+.Subprocessos-Modal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  color: #e7e9d4;
+  font-size: 40px;
+  position: relative;
+}
+
+.Processos-Modal div,
+.Subprocessos-Modal div {
+  font-size: 30px;
+}
+
+.Processos-Modal select,
+.Processos-Modal input,
+.Subprocessos-Modal input {
+  width: 90%;
+  padding: 5px;
+  margin-top: 10px;
+}
+
+.Processos-Modal button {
+  margin-top: 5px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul li {
+  margin-bottom: 5px;
+}
+
+.Confirmar,
+.Cancelar {
+  margin-top: 10px;
+  padding: 8px;
+  cursor: pointer;
+  font-size: 20px;
+  margin-right: 15px;
+  border-radius: 8px;
+  background-color: rgb(83, 160, 231);
+  color: #e7e9d4;
+}
+
+.Confirmar:hover,
+.Cancelar:hover {
+  color: rgb(6, 84, 133);
+}
+
+.Add-button-subprocessos {
+  background-color: transparent;
+  color: rgb(83, 160, 231);
+}
+
+.Add-button-processos {
+  background-color: transparent;
+  color: rgb(83, 160, 231);
+}
+
+.Find-button-processos {
+  background-color: transparent;
+  color: rgb(83, 160, 231);
+}
+
+.Add-button-processos:hover,
+.Add-button-subprocessos:hover,
+.Find-button-processos:hover {
+  color: rgb(26, 113, 201);
+}
+
+.Dropdown-Processos {
+  background-color: rgb(6, 84, 133);
+  border-radius: 8px;
+  color: #e7e9d4;
+  height: 40px;
+  z-index: 1001;
+  font-size: 15px;
+}
+
+.Input-Processos,
+.Input-Subprocessos {
+  background-color: rgb(6, 84, 133);
+  border-radius: 8px;
+  border-color: transparent;
+}
+
+.Processos-Subprocessos-Espaco {
+  padding: 8px;
+}

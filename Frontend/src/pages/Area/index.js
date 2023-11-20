@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Link, useNavigate, navigate } from "react-router-dom";
-import AddProcessosSubprocessosModal from "../../components/addProcessosSubprocessosModal";
+import AddProcessosModal from "../../components/addProcessosModal";
+import AddSubprocessosModal from "../../components/addSubprocessosModal";
 import "./style.css";
 
 function Area() {
@@ -10,12 +11,16 @@ function Area() {
   const [isEditing, setEditing] = useState(false);
   const [editedNome, setEditedNome] = useState("");
   const [editedDescricao, setEditedDescricao] = useState("");
+  const [editedProcessos, setEditedProcessos] = useState("");
+  const [editedSubprocessos, setEditedSubprocessos] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [addingProcesso, setAddingProcesso] = useState(null);
   const [newProcesso, setNewProcesso] = useState("");
   const [newSubprocesso, setNewSubprocesso] = useState("");
   const [selectedProcesso, setSelectedProcesso] = useState("");
-  const [processos, setProcessos] = useState([]);
   const [selectedProcessoId, setSelectedProcessoId] = useState(null);
+  const [subprocessos, setSubprocessos] = useState([]);
+  const [processos, setProcessos] = useState("");
 
   const handleNomeChange = (event) => {
     setEditedNome(event.target.value);
@@ -27,41 +32,36 @@ function Area() {
     setArea((prevArea) => ({ ...prevArea, descricao: event.target.value }));
   };
 
-  const handleProcessoChange = (event, processo) => {
-    const updatedProcessos = area.processos.map((p) =>
-      p === processo ? { ...p, nome: event.target.value } : p
-    );
-    setArea((prevArea) => ({ ...prevArea, processos: updatedProcessos }));
+  const handleProcessosChange = (event, index) => {
+    const updatedProcessos = [...editedProcessos];
+    updatedProcessos[index] = event.target.value;
+    setEditedProcessos(updatedProcessos);
   };
 
-  const handleSubprocessoChange = (event, subprocesso) => {
-    const updatedProcessos = area.processos.map((processo) =>
-      processo === subprocesso.processo
-        ? {
-            ...processo,
-            subprocessos: processo.subprocessos.map((s) =>
-              s === subprocesso ? { ...s, nome: event.target.value } : s
-            ),
-          }
-        : processo
-    );
-    setArea((prevArea) => ({ ...prevArea, processos: updatedProcessos }));
+  const handleSubprocessosChange = (event, processoIndex, subprocessoIndex) => {
+    const updatedSubprocessos = [...editedSubprocessos];
+    updatedSubprocessos[processoIndex][subprocessoIndex] = event.target.value;
+    setEditedSubprocessos(updatedSubprocessos);
   };
 
-  const handleFindProcess = (foundProcesso) => {
-    setSelectedProcesso(foundProcesso.nome);
-    setSelectedProcessoId(foundProcesso.id);
-  };
-
-  const handleAddProcesso = () => {
+  const handleAddProcesso = (isProcesso) => {
     setNewProcesso("");
     setNewSubprocesso("");
     setSelectedProcesso("");
     setSelectedProcessoId(null);
+    setAddingProcesso(true);
     setShowModal(true);
   };
 
-  const handleSaveModal = async (newProcesso, subprocessos) => {
+  const handleAddSubprocesso = () => {
+    setNewSubprocesso("");
+    setSelectedProcesso("");
+    setSelectedProcessoId(null);
+    setAddingProcesso(false);
+    setShowModal(true);
+  };
+
+  const handleSaveProcesso = async (newProcesso) => {
     try {
       const processoResponse = await fetch(
         `https://localhost:7239/api/area/processos/${id}`,
@@ -77,6 +77,31 @@ function Area() {
         }
       );
 
+      if (!processoResponse.ok) {
+        throw new Error("Erro ao adicionar Processo");
+      }
+
+      const createdProcesso = await processoResponse.json();
+
+      console.log("Created Processo:", createdProcesso);
+
+      const updatedProcessos = [
+        ...area.processos,
+        { ...createdProcesso, subprocessos: [] },
+      ];
+
+      setArea((prevArea) => ({ ...prevArea, processos: updatedProcessos }));
+      setProcessos((prevProcessos) => [...prevProcessos, createdProcesso]);
+
+      setNewProcesso("");
+      setAddingProcesso(false);
+    } catch (error) {
+      console.error("Erro ao adicionar Processo:", error);
+    }
+  };
+
+  const handleSaveSubprocessos = async (subprocessos) => {
+    try {
       const subprocessoResponses = await Promise.all(
         subprocessos.map((subprocesso) =>
           fetch(
@@ -95,33 +120,24 @@ function Area() {
         )
       );
 
-      if (!processoResponse.ok) {
-        throw new Error("Erro ao adicionar Processo");
-      }
-
-      const createdProcesso = await processoResponse.json();
-
       const createdSubprocessos = await Promise.all(
         subprocessoResponses.map((response) => response.json())
       );
 
-      console.log("Created Processo:", createdProcesso);
       console.log("Created Subprocessos:", createdSubprocessos);
 
-      const updatedProcessos = [
-        ...area.processos,
-        { ...createdProcesso, subprocessos: createdSubprocessos },
-      ];
+      const updatedProcessos = area.processos.map((processo) =>
+        processo.id === selectedProcessoId
+          ? { ...processo, subprocessos: createdSubprocessos }
+          : processo
+      );
 
       setArea((prevArea) => ({ ...prevArea, processos: updatedProcessos }));
-      setProcessos((prevProcessos) => [...prevProcessos, createdProcesso]);
 
-      setNewProcesso("");
       setNewSubprocesso("");
       setSelectedProcesso("");
-      setShowModal(false);
     } catch (error) {
-      console.error("Erro ao adicionar Processo:", error);
+      console.error("Erro ao adicionar Subprocessos:", error);
     }
   };
 
@@ -129,6 +145,7 @@ function Area() {
     setNewProcesso("");
     setNewSubprocesso("");
     setSelectedProcesso("");
+    setAddingProcesso(false);
     setShowModal(false);
   };
 
@@ -143,7 +160,8 @@ function Area() {
           id: area.id,
           nome: editedNome,
           descricao: editedDescricao,
-          processos: area.processos,
+          processos: editedProcessos,
+          subprocessos: editedSubprocessos,
         }),
       });
 
@@ -227,8 +245,8 @@ function Area() {
               {isEditing ? (
                 <input
                   type="text"
-                  value={processo.nome}
-                  onChange={(event) => handleProcessoChange(event, processo)}
+                  value={editedProcessos}
+                  onChange={(event) => handleProcessosChange(event, processo)}
                 />
               ) : (
                 <>
@@ -250,9 +268,9 @@ function Area() {
                       {isEditing ? (
                         <input
                           type="text"
-                          value={subprocesso.nome}
+                          value={editedSubprocessos}
                           onChange={(event) =>
-                            handleSubprocessoChange(event, subprocesso)
+                            handleSubprocessosChange(event, subprocesso)
                           }
                         />
                       ) : (
@@ -279,23 +297,33 @@ function Area() {
                 <button className="Add-processo" onClick={handleAddProcesso}>
                   Adicionar Processo
                 </button>
-                <button className="Add-subprocesso" onClick={handleAddProcesso}>
+                <button
+                  className="Add-subprocesso"
+                  onClick={handleAddSubprocesso}
+                >
                   Adicionar Subprocesso
                 </button>
               </div>
             </div>
           )}
         </div>
-        {showModal && (
-          <AddProcessosSubprocessosModal
+        {showModal && addingProcesso ? (
+          <AddProcessosModal
             processos={area.processos}
-            onFind={handleFindProcess}
-            onSave={handleSaveModal}
+            onSave={handleSaveProcesso}
             onCancel={handleCloseModal}
             selectedProcesso={selectedProcesso}
             selectedProcessoId={selectedProcessoId}
           />
-        )}
+        ) : showModal && !addingProcesso ? (
+          <AddSubprocessosModal
+            processos={area.processos}
+            onSave={handleSaveSubprocessos}
+            onCancel={handleCloseModal}
+            selectedProcesso={selectedProcesso}
+            selectedProcessoId={selectedProcessoId}
+          />
+        ) : null}
       </div>
     </>
   );

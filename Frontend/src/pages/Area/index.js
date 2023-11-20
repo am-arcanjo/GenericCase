@@ -38,13 +38,24 @@ function Area() {
     setEditedProcessos(updatedProcessos);
   };
 
-  const handleSubprocessosChange = (event, processoIndex, subprocessoIndex) => {
-    const updatedSubprocessos = [...editedSubprocessos];
-    updatedSubprocessos[processoIndex][subprocessoIndex] = event.target.value;
-    setEditedSubprocessos(updatedSubprocessos);
+  const handleUpdateSubprocessos = (createdSubprocessos) => {
+    setArea((prevArea) => {
+      const updatedProcessos = prevArea.processos.map((processo) => {
+        if (processo.id === selectedProcessoId) {
+          return {
+            ...processo,
+            subprocessos: [...processo.subprocessos, ...createdSubprocessos],
+          };
+        }
+        return processo;
+      });
+
+      return { ...prevArea, processos: updatedProcessos };
+    });
+    handleCloseModal();
   };
 
-  const handleAddProcesso = (isProcesso) => {
+  const handleAddProcesso = () => {
     setNewProcesso("");
     setNewSubprocesso("");
     setSelectedProcesso("");
@@ -53,10 +64,10 @@ function Area() {
     setShowModal(true);
   };
 
-  const handleAddSubprocesso = () => {
+  const handleAddSubprocesso = (selectedProcesso) => {
     setNewSubprocesso("");
-    setSelectedProcesso("");
-    setSelectedProcessoId(null);
+    setSelectedProcesso(selectedProcesso);
+    setSelectedProcessoId(selectedProcessoId);
     setAddingProcesso(false);
     setShowModal(true);
   };
@@ -103,7 +114,7 @@ function Area() {
   const handleSaveSubprocessos = async (subprocessos) => {
     try {
       const subprocessoResponses = await Promise.all(
-        subprocessos.map((subprocesso) =>
+        subprocessos.map((subprocesso, index) =>
           fetch(
             `https://localhost:7239/api/area/subprocessos/${selectedProcessoId}`,
             {
@@ -126,7 +137,9 @@ function Area() {
 
       console.log("Created Subprocessos:", createdSubprocessos);
 
-      const updatedProcessos = area.processos.map((processo) =>
+      handleUpdateSubprocessos(createdSubprocessos);
+
+      const updatedProcessos = area.processos.map((processo, index) =>
         processo.id === selectedProcessoId
           ? { ...processo, subprocessos: createdSubprocessos }
           : processo
@@ -160,8 +173,10 @@ function Area() {
           id: area.id,
           nome: editedNome,
           descricao: editedDescricao,
-          processos: editedProcessos,
-          subprocessos: editedSubprocessos,
+          processos: editedProcessos.map((processo, index) => ({
+            ...processo,
+            subprocessos: editedSubprocessos[index],
+          })),
         }),
       });
 
@@ -240,13 +255,13 @@ function Area() {
           )}
         </p>
         {area.processos &&
-          area.processos.map((processo) => (
+          area.processos.map((processo, index) => (
             <li key={processo.nome} className="Processos-item">
               {isEditing ? (
                 <input
                   type="text"
-                  value={editedProcessos}
-                  onChange={(event) => handleProcessosChange(event, processo)}
+                  value={editedProcessos[index]}
+                  onChange={(event) => handleProcessosChange(event, index)}
                 />
               ) : (
                 <>
@@ -263,14 +278,14 @@ function Area() {
               )}
               {processo.subprocessos && processo.subprocessos.length > 0 && (
                 <ul className="Subprocessos-list">
-                  {processo.subprocessos.map((subprocesso) => (
+                  {processo.subprocessos.map((subprocesso, index) => (
                     <li key={subprocesso.nome}>
                       {isEditing ? (
                         <input
                           type="text"
-                          value={editedSubprocessos}
+                          value={editedSubprocessos[index]}
                           onChange={(event) =>
-                            handleSubprocessosChange(event, subprocesso)
+                            handleUpdateSubprocessos(event, index)
                           }
                         />
                       ) : (
@@ -299,7 +314,7 @@ function Area() {
                 </button>
                 <button
                   className="Add-subprocesso"
-                  onClick={handleAddSubprocesso}
+                  onClick={() => handleAddSubprocesso(processos)}
                 >
                   Adicionar Subprocesso
                 </button>

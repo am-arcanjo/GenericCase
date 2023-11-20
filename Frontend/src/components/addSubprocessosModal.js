@@ -6,7 +6,6 @@ const AddSubprocessosModal = ({
   processos,
   onCancel,
   onSave,
-  onFind,
   propSelectedProcesso,
   selectedProcessoId,
 }) => {
@@ -42,10 +41,13 @@ const AddSubprocessosModal = ({
 
       console.log("Created Subprocesso:", createdSubprocesso);
 
+      onSave(createdSubprocesso);
+
       setSubprocessos((prevSubprocessos) => [
         ...prevSubprocessos,
         createdSubprocesso,
       ]);
+
       setNewSubprocesso("");
     } catch (error) {
       console.error("Erro ao adicionar Subprocesso:", error);
@@ -93,7 +95,7 @@ const AddSubprocessosModal = ({
             />
             <button
               className="Add-button-subprocessos"
-              onClick={handleAddSubprocesso}
+              onClick={() => handleAddSubprocesso(selectedProcesso)}
               type="button"
             >
               <IoMdAddCircle size="30px" />

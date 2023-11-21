@@ -6,3 +6,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    ports:
+      - "7239:7239"  
+
+  frontend:
+    image: ${DOCKER_REGISTRY-}frontend
+    build:
+      context: ../Frontend  
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"  
+    depends_on:
+      - caseapi

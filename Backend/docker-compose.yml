@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  caseapi:
+    image: ${DOCKER_REGISTRY-}caseapi
+    build:
+      context: .
+      dockerfile: Dockerfile

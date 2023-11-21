@@ -1,15 +1,41 @@
 import React, { useState } from "react";
 import "./addProcessosModal.css";
-import { IoMdAddCircle, IoMdSearch } from "react-icons/io";
+import { IoMdAddCircle } from "react-icons/io";
 
-const AddProcessosModal = ({ processos, onCancel, onSave }) => {
+const AddProcessosModal = ({ areaId, onCancel, onSave }) => {
   const [newProcesso, setNewProcesso] = useState("");
-  const [newSubprocesso, setNewSubprocesso] = useState("");
-  const [subprocessos, setSubprocessos] = useState([]);
 
-  const handleAddProcesso = () => {
-    if ((selectedProcesso || newProcesso) && processos) {
-      onSave(selectedProcesso || newProcesso, subprocessos);
+  const handleAddProcesso = async () => {
+    if (!newProcesso) {
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://localhost:7239/api/area/processos/${areaId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            Nome: newProcesso,
+            AreaModelId: areaId,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Erro ao adicionar Processo");
+      }
+
+      const createdProcesso = await response.json();
+
+      onSave(createdProcesso);
+
+      setNewProcesso("");
+    } catch (error) {
+      console.error("Erro ao adicionar Processo:", error);
     }
   };
 

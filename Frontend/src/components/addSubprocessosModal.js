@@ -2,25 +2,19 @@ import React, { useState } from "react";
 import "./addSubprocessosModal.css";
 import { IoMdAddCircle } from "react-icons/io";
 
-const AddSubprocessosModal = ({
-  processos,
-  onCancel,
-  onSave,
-  propSelectedProcesso,
-  selectedProcessoId,
-}) => {
+const AddSubprocessosModal = ({ processos, onCancel, onSave }) => {
   const [selectedProcesso, setSelectedProcesso] = useState("");
   const [newSubprocesso, setNewSubprocesso] = useState("");
   const [subprocessos, setSubprocessos] = useState([]);
 
   const handleAddSubprocesso = async () => {
-    if (!selectedProcessoId || !newSubprocesso) {
+    if (!selectedProcesso || !newSubprocesso) {
       return;
     }
 
     try {
       const response = await fetch(
-        `https://localhost:7239/api/area/subprocessos/${selectedProcessoId}`,
+        `https://localhost:7239/api/area/subprocessos/${selectedProcesso}`,
         {
           method: "POST",
           headers: {
@@ -28,7 +22,7 @@ const AddSubprocessosModal = ({
           },
           body: JSON.stringify({
             Nome: newSubprocesso,
-            ProcessosModelId: selectedProcessoId,
+            ProcessosModelId: selectedProcesso,
           }),
         }
       );
@@ -41,14 +35,13 @@ const AddSubprocessosModal = ({
 
       console.log("Created Subprocesso:", createdSubprocesso);
 
-      onSave(createdSubprocesso);
-
       setSubprocessos((prevSubprocessos) => [
         ...prevSubprocessos,
         createdSubprocesso,
       ]);
 
       setNewSubprocesso("");
+      onSave(subprocessos);
     } catch (error) {
       console.error("Erro ao adicionar Subprocesso:", error);
     }

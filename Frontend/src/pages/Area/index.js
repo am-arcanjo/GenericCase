@@ -11,8 +11,11 @@ function Area() {
   const [isEditing, setEditing] = useState(false);
   const [editedNome, setEditedNome] = useState("");
   const [editedDescricao, setEditedDescricao] = useState("");
-  const [editedProcessos, setEditedProcessos] = useState("");
-  const [editedSubprocessos, setEditedSubprocessos] = useState("");
+  const [editedProcessos, setEditedProcessos] = useState(
+    (area?.processos || []).map((processo) => processo.nome)
+  );
+
+  const [editedSubprocessos, setEditedSubprocessos] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [addingProcesso, setAddingProcesso] = useState(null);
   const [newProcesso, setNewProcesso] = useState("");
@@ -38,21 +41,11 @@ function Area() {
     setEditedProcessos(updatedProcessos);
   };
 
-  const handleUpdateSubprocessos = (createdSubprocessos) => {
-    setArea((prevArea) => {
-      const updatedProcessos = prevArea.processos.map((processo) => {
-        if (processo.id === selectedProcessoId) {
-          return {
-            ...processo,
-            subprocessos: [...processo.subprocessos, ...createdSubprocessos],
-          };
-        }
-        return processo;
-      });
-
-      return { ...prevArea, processos: updatedProcessos };
-    });
-    handleCloseModal();
+  const handleSubprocessosChange = (event, processoIndex, subprocessoIndex) => {
+    const updatedSubprocessos = [...editedSubprocessos];
+    updatedSubprocessos[processoIndex][subprocessoIndex].nome =
+      event.target.value;
+    setEditedSubprocessos(updatedSubprocessos);
   };
 
   const handleAddProcesso = () => {
@@ -64,9 +57,8 @@ function Area() {
     setShowModal(true);
   };
 
-  const handleAddSubprocesso = (selectedProcesso) => {
+  const handleAddSubprocesso = (selectedProcessoId) => {
     setNewSubprocesso("");
-    setSelectedProcesso(selectedProcesso);
     setSelectedProcessoId(selectedProcessoId);
     setAddingProcesso(false);
     setShowModal(true);
@@ -106,6 +98,7 @@ function Area() {
 
       setNewProcesso("");
       setAddingProcesso(false);
+      handleCloseModal();
     } catch (error) {
       console.error("Erro ao adicionar Processo:", error);
     }
@@ -116,7 +109,7 @@ function Area() {
       const subprocessoResponses = await Promise.all(
         subprocessos.map((subprocesso, index) =>
           fetch(
-            `https://localhost:7239/api/area/subprocessos/${selectedProcessoId}`,
+            `https://localhost:7239/api/area/subprocessos/${selectedProcesso}`,
             {
               method: "POST",
               headers: {
@@ -124,7 +117,7 @@ function Area() {
               },
               body: JSON.stringify({
                 Nome: subprocesso,
-                ProcessosModelId: selectedProcessoId,
+                ProcessosModelId: selectedProcesso,
               }),
             }
           )
@@ -137,7 +130,7 @@ function Area() {
 
       console.log("Created Subprocessos:", createdSubprocessos);
 
-      handleUpdateSubprocessos(createdSubprocessos);
+      handleSubprocessosChange(createdSubprocessos);
 
       const updatedProcessos = area.processos.map((processo, index) =>
         processo.id === selectedProcessoId
@@ -149,6 +142,7 @@ function Area() {
 
       setNewSubprocesso("");
       setSelectedProcesso("");
+      setShowModal(false);
     } catch (error) {
       console.error("Erro ao adicionar Subprocessos:", error);
     }
@@ -207,7 +201,9 @@ function Area() {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
+        console.log("AAAAAS", data);
+        const processos = data.processos || [];
+
         setArea(data);
         setEditedNome(data.nome);
         setEditedDescricao(data.descricao);
@@ -216,6 +212,10 @@ function Area() {
           processos: data.processos || [],
         }));
         setProcessos(data.processos || []);
+        setEditedSubprocessos(
+          processos.map((processo) => processo.subprocessos ?? [])
+        );
+        setEditedProcessos(data?.processos || []);
       })
       .catch((error) => {
         console.error("Error fetching data: ", error);
@@ -255,13 +255,15 @@ function Area() {
           )}
         </p>
         {area.processos &&
-          area.processos.map((processo, index) => (
+          area.processos.map((processo, processoIndex) => (
             <li key={processo.nome} className="Processos-item">
               {isEditing ? (
                 <input
                   type="text"
-                  value={editedProcessos[index]}
-                  onChange={(event) => handleProcessosChange(event, index)}
+                  value={editedProcessos[processoIndex].nome}
+                  onChange={(event) =>
+                    handleProcessosChange(event, processoIndex)
+                  }
                 />
               ) : (
                 <>
@@ -278,65 +280,65 @@ function Area() {
               )}
               {processo.subprocessos && processo.subprocessos.length > 0 && (
                 <ul className="Subprocessos-list">
-                  {processo.subprocessos.map((subprocesso, index) => (
-                    <li key={subprocesso.nome}>
-                      {isEditing ? (
-                        <input
-                          type="text"
-                          value={editedSubprocessos[index]}
-                          onChange={(event) =>
-                            handleUpdateSubprocessos(event, index)
-                          }
-                        />
-                      ) : (
-                        subprocesso.nome
-                      )}
-                    </li>
-                  ))}
+                  {isEditing
+                    ? editedSubprocessos[processoIndex].map(
+                        (subprocesso, subprocessoIndex) => (
+                          <li key={subprocesso.nome}>
+                            <input
+                              type="text"
+                              value={subprocesso.nome}
+                              onChange={(event) => {
+                                handleSubprocessosChange(
+                                  event,
+                                  processoIndex,
+                                  subprocessoIndex
+                                );
+                              }}
+                            />
+                          </li>
+                        )
+                      )
+                    : processo.subprocessos.map((subprocesso) => (
+                        <li key={subprocesso.nome}>{subprocesso.nome}</li>
+                      ))}
                 </ul>
               )}
             </li>
           ))}
-        <div>
-          {isEditing && (
-            <div>
-              <div className="Edit-buttons">
-                <button className="Save-button" onClick={handleSave}>
-                  Salvar
-                </button>
-                <button className="Close-button" onClick={handleClose}>
-                  Fechar
-                </button>
-              </div>
-              <div>
-                <button className="Add-processo" onClick={handleAddProcesso}>
-                  Adicionar Processo
-                </button>
-                <button
-                  className="Add-subprocesso"
-                  onClick={() => handleAddSubprocesso(processos)}
-                >
-                  Adicionar Subprocesso
-                </button>
-              </div>
+        {isEditing && (
+          <div>
+            <div className="Edit-buttons">
+              <button className="Save-button" onClick={handleSave}>
+                Salvar
+              </button>
+              <button className="Close-button" onClick={handleClose}>
+                Fechar
+              </button>
             </div>
-          )}
-        </div>
+            <div className="Add-buttons">
+              <button className="Add-processo" onClick={handleAddProcesso}>
+                Adicionar Processo
+              </button>
+              <button
+                className="Add-subprocesso"
+                onClick={() => handleAddSubprocesso(processos)}
+              >
+                Adicionar Subprocesso
+              </button>
+            </div>
+          </div>
+        )}
         {showModal && addingProcesso ? (
           <AddProcessosModal
-            processos={area.processos}
-            onSave={handleSaveProcesso}
+            areaId={id}
             onCancel={handleCloseModal}
-            selectedProcesso={selectedProcesso}
-            selectedProcessoId={selectedProcessoId}
+            onSave={handleSaveProcesso}
           />
         ) : showModal && !addingProcesso ? (
           <AddSubprocessosModal
             processos={area.processos}
             onSave={handleSaveSubprocessos}
             onCancel={handleCloseModal}
-            selectedProcesso={selectedProcesso}
-            selectedProcessoId={selectedProcessoId}
           />
         ) : null}
       </div>

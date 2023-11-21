@@ -106,7 +106,7 @@ const AddSubprocessosModal = ({ processos, onCancel, onSave }) => {
           )}
 
           <div>
-            <button className="Confirmar" onClick={handleAddSubprocesso}>
+            <button className="Confirmar" onClick={handleCancel}>
               Confirmar
             </button>
             <button className="Cancelar" onClick={handleCancel}>

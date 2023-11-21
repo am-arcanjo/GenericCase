@@ -67,7 +67,7 @@ const AddProcessosModal = ({ areaId, onCancel, onSave }) => {
             </div>
           </label>
           <div>
-            <button className="Confirmar" onClick={handleAddProcesso}>
+            <button className="Confirmar" onClick={handleCancel}>
               Confirmar
             </button>
             <button className="Cancelar" onClick={handleCancel}>

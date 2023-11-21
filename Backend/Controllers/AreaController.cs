@@ -290,6 +290,27 @@ namespace CaseAPI.Controllers
             return Ok(subprocesso);
         }
 
+        [HttpDelete("subprocessos/{id}")]
+        public async Task<IActionResult> DeleteSubprocessos(int id)
+        {
+            var subprocessos = await _context.Subprocessos.FindAsync(id);
+
+            if (subprocessos == null)
+            {
+                return NotFound();
+            }
+
+            _context.Subprocessos.Remove(subprocessos);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool SubprocessoExists(int id)
+        {
+            return _context.Subprocessos.Any(p => p.Id == id);
+        }
+
 
     }
 }

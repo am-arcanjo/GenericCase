@@ -184,7 +184,6 @@ function Area() {
         return response.json();
       })
       .then((data) => {
-        console.log("AAAAAS", data);
         const processos = data.processos || [];
 
         setArea(data);
@@ -206,19 +205,20 @@ function Area() {
   }
 
   const handleProcessoDelete = async (id) => {
-    setProcessoIdToDelete(id);
     try {
       const response = await fetch(
-        `https://localhost:7239/api/processos/${processoIdToDelete}`,
+        `https://localhost:7239/api/area/processos/${id}`,
         {
           method: "DELETE",
         }
       );
 
       if (response.status === 204) {
-        setProcessos(
-          processos.filter((processo) => processo.id !== processoIdToDelete)
+        const updatedProcessos = area.processos.filter(
+          (processo) => processo.id !== id
         );
+        setArea((prevArea) => ({ ...prevArea, processos: updatedProcessos }));
+        setProcessos(processos.filter((processo) => processo.id !== id));
       } else if (response.status === 404) {
         alert("Processo não encontrado.");
       } else {
@@ -227,7 +227,30 @@ function Area() {
     } catch (err) {
       alert("Erro ao deletar Processo, tente novamente.");
     }
-    setProcessoIdToDelete(null);
+  };
+
+  const handleSubprocessoDelete = async (id, processoIndex) => {
+    try {
+      const response = await fetch(
+        `https://localhost:7239/api/area/subprocessos/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (response.status === 204) {
+        const updatedProcessos = area.processos[
+          processoIndex
+        ].subprocesso.filter((subprocesso) => subprocesso.id !== id);
+        setArea((prevArea) => ({ ...prevArea, processos: updatedProcessos }));
+      } else if (response.status === 404) {
+        alert("Processo não encontrado.");
+      } else {
+        alert("Erro ao deletar Subprocesso, tente novamente.");
+      }
+    } catch (err) {
+      alert("Erro ao deletar Subprocesso, tente novamente.");
+    }
   };
 
   return (
@@ -307,6 +330,17 @@ function Area() {
                                 );
                               }}
                             />
+                            <button
+                              className="Delete-button"
+                              onClick={() =>
+                                handleSubprocessoDelete(
+                                  subprocesso.id,
+                                  processoIndex
+                                )
+                              }
+                            >
+                              <IoClose size="30px" />
+                            </button>
                           </li>
                         )
                       )

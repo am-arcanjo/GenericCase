@@ -1,17 +1,22 @@
-# Use the official ASP.NET Core image
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
+EXPOSE 80
+EXPOSE 443
 
-# Copy the project file and restore dependencies
-COPY Backend/*.csproj ./
-RUN dotnet restore
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /src
+COPY ["CaseAPI.csproj", "."]
+RUN dotnet restore "./CaseAPI.csproj"
+COPY . .
+WORKDIR "/src/."
+RUN dotnet build "CaseAPI.csproj" -c Release -o /app/build
 
-# Copy the remaining source code and build the application
-COPY Backend/. ./
-RUN dotnet publish -c Release -o out
+FROM build AS publish
+RUN dotnet publish "CaseAPI.csproj" -c Release -o /app/publish
 
-# Build the runtime image
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
+FROM base AS final
 WORKDIR /app
-COPY --from=build /app/out .
-ENTRYPOINT ["dotnet", "YourBackendAppName.dll"]
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "CaseAPI.dll"]

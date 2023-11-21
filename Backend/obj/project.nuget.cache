@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "rmkSw1Ov2BxR/i5FYb3Ape/bE8PzxztYHW9WjHDzdxzJEzRx67KyJwSvl1dMQtur80shn12QQRmD7eZQmcrOvQ==",
+  "dgSpecHash": "7hLJbxZKOaabhVfkkmYGqHUGLrR/RRVDGDhD4/4b3lzZhpSwzfbnO0fcpqSNXIkH9ariHL6LfQWUH3P5N3QdKA==",
   "success": true,
   "projectFilePath": "C:\\Users\\dti Digital\\Documents\\Case_CRUD\\Project\\src\\Backend\\CaseAPI.csproj",
   "expectedPackageFiles": [
@@ -31,6 +31,7 @@
     "C:\\Users\\dti Digital\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0\\microsoft.extensions.primitives.8.0.0.nupkg.sha512",
     "C:\\Users\\dti Digital\\.nuget\\packages\\microsoft.net.http.headers\\2.2.0\\microsoft.net.http.headers.2.2.0.nupkg.sha512",
     "C:\\Users\\dti Digital\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\dti Digital\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.15.1\\microsoft.visualstudio.azure.containers.tools.targets.1.15.1.nupkg.sha512",
     "C:\\Users\\dti Digital\\.nuget\\packages\\serilog\\3.1.1\\serilog.3.1.1.nupkg.sha512",
     "C:\\Users\\dti Digital\\.nuget\\packages\\serilog.extensions.logging\\8.0.0\\serilog.extensions.logging.8.0.0.nupkg.sha512",
     "C:\\Users\\dti Digital\\.nuget\\packages\\serilog.sinks.file\\5.0.0\\serilog.sinks.file.5.0.0.nupkg.sha512",

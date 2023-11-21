@@ -231,6 +231,28 @@ namespace CaseAPI.Controllers
             }
         }
 
+        [HttpDelete("processos/{id}")]
+        public async Task<IActionResult> DeleteProcessos(int id)
+        {
+            var processos = await _context.Processos.FindAsync(id);
+
+            if (processos == null)
+            {
+                return NotFound();
+            }
+
+            _context.Processos.Remove(processos);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool ProcessoExists(int id)
+        {
+            return _context.Processos.Any(p => p.Id == id);
+        }
+
+
         [HttpPost("subprocessos/{processoId}")]
         public async Task<ActionResult<SubprocessosModel>> PostSubprocesso(SubprocessosModel subprocesso, int processoId)
         {
@@ -266,6 +288,27 @@ namespace CaseAPI.Controllers
             }
 
             return Ok(subprocesso);
+        }
+
+        [HttpDelete("subprocessos/{id}")]
+        public async Task<IActionResult> DeleteSubprocessos(int id)
+        {
+            var subprocessos = await _context.Subprocessos.FindAsync(id);
+
+            if (subprocessos == null)
+            {
+                return NotFound();
+            }
+
+            _context.Subprocessos.Remove(subprocessos);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool SubprocessoExists(int id)
+        {
+            return _context.Subprocessos.Any(p => p.Id == id);
         }
 
 

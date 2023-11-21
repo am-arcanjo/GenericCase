@@ -4,6 +4,7 @@ import { Link, useNavigate, navigate } from "react-router-dom";
 import AddProcessosModal from "../../components/addProcessosModal";
 import AddSubprocessosModal from "../../components/addSubprocessosModal";
 import "./style.css";
+import { IoClose } from "react-icons/io5";
 
 function Area() {
   const { id } = useParams();
@@ -16,6 +17,7 @@ function Area() {
   const [selectedProcesso, setSelectedProcesso] = useState("");
   const [selectedProcessoId, setSelectedProcessoId] = useState(null);
   const [processos, setProcessos] = useState("");
+  const [processoIdToDelete, setProcessoIdToDelete] = useState(null);
 
   const handleNomeChange = (event) => {
     setEditedNome(event.target.value);
@@ -200,8 +202,33 @@ function Area() {
   }, [id]);
 
   if (!area) {
-    return <div>Carregando...</div>;
+    return <div className="Carregamento">Carregando...</div>;
   }
+
+  const handleProcessoDelete = async (id) => {
+    setProcessoIdToDelete(id);
+    try {
+      const response = await fetch(
+        `https://localhost:7239/api/processos/${processoIdToDelete}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (response.status === 204) {
+        setProcessos(
+          processos.filter((processo) => processo.id !== processoIdToDelete)
+        );
+      } else if (response.status === 404) {
+        alert("Processo não encontrado.");
+      } else {
+        alert("Erro ao deletar Processo, tente novamente.");
+      }
+    } catch (err) {
+      alert("Erro ao deletar Processo, tente novamente.");
+    }
+    setProcessoIdToDelete(null);
+  };
 
   return (
     <>
@@ -235,13 +262,21 @@ function Area() {
           area.processos.map((processo, processoIndex) => (
             <li key={processo.id} className="Processos-item">
               {isEditing ? (
-                <input
-                  type="text"
-                  value={processo.nome}
-                  onChange={(event) =>
-                    handleProcessosChange(event, processoIndex)
-                  }
-                />
+                <div>
+                  <input
+                    type="text"
+                    value={processo.nome}
+                    onChange={(event) =>
+                      handleProcessosChange(event, processoIndex)
+                    }
+                  />
+                  <button
+                    className="Delete-button"
+                    onClick={() => handleProcessoDelete(processo.id)}
+                  >
+                    <IoClose size="30px" />
+                  </button>
+                </div>
               ) : (
                 <>
                   {processo.nome}{" "}

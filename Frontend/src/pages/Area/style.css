@@ -1,6 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Libre+Baskerville&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Libre+Baskerville&family=Montserrat&display=swap");
 
+.Carregamento {
+  background-color: #033f63;
+  width: auto;
+  height: 100vh;
+  overflow-y: auto;
+  color: #e7e9d4;
+  text-align: center;
+  font-size: 40px;
+  font-family: "Alfa Slab One", serif;
+}
+
 .Processos {
   background-color: #033f63;
   width: auto;
@@ -38,7 +49,7 @@
   color: #e7e9d4;
   margin-bottom: 30px;
   list-style-type: none;
-  width: 80%;
+  width: 600px;
 }
 
 .Subprocessos-list {
@@ -129,6 +140,16 @@
 .Add-subprocesso:hover,
 .Add-processo:hover {
   transform: scale(1.1);
+}
+
+.Delete-button {
+  background-color: #033f63;
+  color: #e7e9d4;
+}
+
+.Delete-button:hover {
+  color: rgba(253, 187, 45, 1);
+  scale: 1.2;
 }
 
 input,
